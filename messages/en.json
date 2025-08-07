@@ -1,5 +1,19 @@
 {
   "home": {
     "title": "Welcome"
+  },
+  "signin": {
+    "title": "Welcome",
+    "subtitle": "Sign in to your CartaFlow account",
+    "continueWith": "Continue with {provider}",
+    "or": "or",
+    "noAccount": "Don't have an account?",
+    "createAccount": "Create an account",
+    "backToHome": "Back to home",
+    "noProviders": {
+      "title": "Configuration Required",
+      "description": "No authentication providers configured.",
+      "help": "Please configure at least one provider in the environment variables."
+    }
   }
 }

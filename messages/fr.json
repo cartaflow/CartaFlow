@@ -2,6 +2,16 @@
   "home": {
     "title": "Bienvenue"
   },
+  "header": {
+    "lists": "Lists",
+    "explore": "Explorer",
+    "themes": "Thèmes",
+    "settings": "Paramètres",
+    "profile": "Profil",
+    "signUp": "S'inscrire",
+    "signIn": "Se connecter",
+    "menu": "Menu"
+  },
   "signin": {
     "title": "Bienvenue",
     "subtitle": "Connectez-vous à votre compte CartaFlow",

@@ -3,14 +3,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { AlertTriangleIcon, ArrowLeftIcon, LockIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
-const LoginPage: React.FC = () => {
+const LoginPage = async () => {
   const providers = getAvailableProviders();
-  const t = useTranslations("signin");
+  const t = await getTranslations("signin");
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+    <div className="sm:min-h-screen h-screen flex items-center justify-center bg-background p-4">
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
           <div className="mx-auto w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
@@ -20,8 +20,8 @@ const LoginPage: React.FC = () => {
           <p className="text-muted-foreground">{t("subtitle")}</p>
         </div>
 
-        <Card className="shadow-xl border bg-card/50 backdrop-blur-sm">
-          <CardContent className="p-6">
+        <Card className="shadow-xl sm:border py-1 sm:py-6 border-0 sm:bg-card/50 bg-background backdrop-blur-sm">
+          <CardContent className="sm:p-6 p-0">
             {providers.length > 0 ? (
               <div className="space-y-4">
                 {providers.map((provider) => (
@@ -44,7 +44,7 @@ const LoginPage: React.FC = () => {
                     <div className="w-full border-t border-border" />
                   </div>
                   <div className="relative flex justify-center text-sm">
-                    <span className="px-2 bg-card text-muted-foreground">{t("or")}</span>
+                    <span className="px-2 sm:bg-card bg-background text-muted-foreground">{t("or")}</span>
                   </div>
                 </div>
 

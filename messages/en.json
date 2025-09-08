@@ -25,5 +25,32 @@
       "description": "No authentication providers configured.",
       "help": "Please configure at least one provider in the environment variables."
     }
+  },
+  "lists": {
+    "title": "Lists",
+    "description": "Manage your personal lists and collections",
+    "loading": "Loading...",
+    "newList": "New List",
+    "noLists": "No lists yet",
+    "createFirst": "Create your first list",
+    "confirmDelete": "Are you sure you want to delete this list?",
+    "created": "Created on {CreationDate, date, medium}",
+    "newListDescription": "Create a new list to organize your content",
+    "createList": "Create List",
+    "fieldTitle": "Title",
+    "fieldDescription": "Description",
+    "titlePlaceholder": "Enter list title...",
+    "descriptionPlaceholder": "Enter list description (optional)...",
+    "cancel": "Cancel",
+    "create": "Create",
+    "creating": "Creating...",
+    "deleteConfirmTitle": "Are you absolutely sure?",
+    "deleteConfirmDescription": "This action cannot be undone. This will permanently delete your list and remove your data from our servers.",
+    "delete": "Delete",
+    "deleting": "Deleting...",
+    "validation": {
+      "titleRequired": "Title is required",
+      "serverError": "An error occurred while creating the list. Please try again."
+    }
   }
 }

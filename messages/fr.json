@@ -25,5 +25,32 @@
       "description": "Aucun fournisseur d'authentification configuré.",
       "help": "Veuillez configurer au moins un fournisseur dans les variables d'environnement."
     }
+  },
+  "lists": {
+    "title": "Listes",
+    "description": "Gérez vos listes et collections personnelles",
+    "loading": "Chargement...",
+    "newList": "Nouvelle Liste",
+    "noLists": "Aucune liste pour le moment",
+    "createFirst": "Créer votre première liste",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette liste ?",
+    "created": "Créée le {CreationDate, date, medium}",
+    "newListDescription": "Créer une nouvelle liste pour organiser votre contenu",
+    "createList": "Créer une Liste",
+    "fieldTitle": "Titre",
+    "fieldDescription": "Description",
+    "titlePlaceholder": "Entrez le titre de la liste...",
+    "descriptionPlaceholder": "Entrez la description de la liste (optionnel)...",
+    "cancel": "Annuler",
+    "create": "Créer",
+    "creating": "Création en cours...",
+    "deleteConfirmTitle": "Êtes-vous absolument sûr ?",
+    "deleteConfirmDescription": "Cette action ne peut pas être annulée. Cela supprimera définitivement votre liste et supprimera vos données de nos serveurs.",
+    "delete": "Supprimer",
+    "deleting": "Suppression en cours...",
+    "validation": {
+      "titleRequired": "Le titre est requis",
+      "serverError": "Une erreur s'est produite lors de la création de la liste. Veuillez réessayer."
+    }
   }
 }

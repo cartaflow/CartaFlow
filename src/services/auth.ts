@@ -39,7 +39,7 @@ export async function getSessions(): Promise<ClientSession[]> {
   });
 
   if (!sessions) throw new Error("No sessions found for user");
-  return sessions.map(session => ({
+  return sessions.map((session): ClientSession => ({
     token: session.sessionToken,
     ipAddress: session.ipAddress,
     device: session.device,

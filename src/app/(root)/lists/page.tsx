@@ -1,7 +1,5 @@
-import { List as ListIcon, Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { List as ListIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import Link from "next/link";
 import { getLists } from "@/lib/actions/lists";
 import { getTranslations } from "next-intl/server";
 import ListCard from "@/components/lists/card";
@@ -34,12 +32,7 @@ export default async function ListsPage() {
             <div className="text-center space-y-3">
               <ListIcon className="h-12 w-12 text-muted-foreground mx-auto" />
               <p className="text-muted-foreground">{t("noLists")}</p>
-              <Link href="/lists/new">
-                <Button className="cursor-pointer">
-                  <Plus className="h-4 w-4" />
-                  {t("createFirst")}
-                </Button>
-              </Link>
+              <CreateListDialog />
             </div>
           </CardContent>
         </Card>

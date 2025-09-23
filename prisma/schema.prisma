@@ -72,6 +72,8 @@ model List {
   id          String   @id @default(cuid())
   title       String
   description String?
+  tags        String[] @default([])
+  icon        String   @default("list")
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 

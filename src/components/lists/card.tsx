@@ -1,90 +1,70 @@
 "use client";
 
-import { Trash2 } from "lucide-react";
-import { deleteList } from "@/lib/actions/lists";
+import { ListIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { List } from "@/types/list";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { iconMap } from "@/lib/icons";
 
 interface ListCardProps {
   list: List;
 }
 
 export default function ListCard({ list }: ListCardProps) {
-  const [isDeleting, setIsDeleting] = useState(false);
   const t = useTranslations("lists");
-  const router = useRouter();
-
-  const handleDelete = async () => {
-    setIsDeleting(true);
-    try {
-      await deleteList(list.id);
-      router.refresh();
-    } catch (error) {
-      console.error("Failed to delete list:", error);
-      setIsDeleting(false);
-    }
-  };
+  const Icon = iconMap[list.icon] || ListIcon;
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0">
-        <div className="space-y-1">
-          <CardTitle className="text-base">{list.title}</CardTitle>
-          {list.description && (
-            <CardDescription>{list.description}</CardDescription>
-          )}
-        </div>
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-12 w-12 text-destructive hover:text-destructive cursor-pointer"
-              disabled={isDeleting}
-            >
-              <Trash2 className="size-5" />
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>{t("deleteConfirmTitle")}</AlertDialogTitle>
-              <AlertDialogDescription>
-                {t("deleteConfirmDescription")}
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
-              <Button
-                variant="destructive"
-                className="cursor-pointer"
-                onClick={handleDelete}
-                disabled={isDeleting}
-              >
-                {isDeleting ? t("deleting") : t("delete")}
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm text-muted-foreground">
-          {t("created", { CreationDate: list.createdAt })}
-        </p>
-      </CardContent>
-    </Card>
+    <Link href={`/lists/${list.id}`}>
+      <Card className="featured-card gap-0 hover:shadow-lg transition-shadow">
+        <CardHeader className="pb-0">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="h-12 w-12 rounded-sm bg-primary/10 flex items-center justify-center">
+              <Icon className="h-6 w-6 text-primary" />
+            </div>
+            <div className="flex-1">
+              <div className="flex items-start justify-between">
+                <div>
+                  <CardTitle className="text-xl">{list.title}</CardTitle>
+                  <p className="text-sm text-muted-foreground">
+                    {t("byAuthor", { author: list.user?.name || "" })}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardHeader>
+
+        <CardContent className="flex justify-between">
+          <div>
+            {list.description && (
+              <div className="mb-2">{list.description}</div>
+            )}
+
+            {list.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-2">
+                {list.tags.map((tag) => (
+                  <Badge key={tag} variant="secondary" className="rounded-full">
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            )}
+          </div>
+          <div>
+            <div className="flex items-center justify-end">
+              <span className="text-sm text-muted-foreground">
+                {t("cardCount", { count: list.cardsCount || 0 })}
+              </span>
+            </div>
+            <p className="text-xs text-muted-foreground mt-2">
+              {t("created", { CreationDate: list.createdAt })}
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
   );
 }

@@ -17,6 +17,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   lists         List[]
+  cards         Card[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -69,14 +70,41 @@ model VerificationToken {
 }
 
 model List {
-  id          String   @id @default(cuid())
-  title       String
-  description String?
-  tags        String[] @default([])
-  icon        String   @default("list")
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id              String   @id @default(cuid())
+  title           String
+  description     String?
+  tags            String[] @default([])
+  icon            String   @default("list")
+  cardTemplate    String?
+  requireApproval Boolean  @default(false)
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cards           Card[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum CardStatus {
+  PUBLISHED
+  PENDING
+}
+
+model Card {
+  id          String     @id @default(cuid())
+  title       String
+  description String?
+  url         String?
+  image       String?
+  tags        String[]   @default([])
+  status      CardStatus @default(PUBLISHED)
+  listId      String
+  list        List       @relation(fields: [listId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([listId])
 }

@@ -13,10 +13,10 @@ const LoginPage = async () => {
     <div className="sm:min-h-screen h-screen flex items-center justify-center bg-background p-4">
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
-          <div className="mx-auto w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
-            <LockIcon />
+          <div className="mx-auto w-14 h-14 border bg-card rounded-xl flex items-center justify-center mb-4 text-primary">
+            <LockIcon className="size-6" />
           </div>
-          <h1 className="text-3xl font-bold mb-2">{t("title")}</h1>
+          <h1 className="text-3xl font-semibold tracking-tight mb-2">{t("title")}</h1>
           <p className="text-muted-foreground">{t("subtitle")}</p>
         </div>
 
@@ -39,21 +39,6 @@ const LoginPage = async () => {
                     </Button>
                   </form>
                 ))}
-                <div className="relative my-6">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-border" />
-                  </div>
-                  <div className="relative flex justify-center text-sm">
-                    <span className="px-2 sm:bg-card bg-background text-muted-foreground">{t("or")}</span>
-                  </div>
-                </div>
-
-                <p className="text-sm text-center text-muted-foreground">
-                  {t("noAccount")}{" "}
-                  <Link href="/signup" className="font-medium text-primary hover:text-primary/80 transition-colors">
-                    {t("createAccount")}
-                  </Link>
-                </p>
               </div>
             ) : (
               <div className="text-center py-8 space-y-4">

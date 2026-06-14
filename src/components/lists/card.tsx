@@ -18,7 +18,7 @@ export default function ListCard({ list }: ListCardProps) {
 
   return (
     <Link href={`/lists/${list.id}`} className="group block h-full">
-      <Card className="featured-card flex h-full flex-col gap-0 overflow-hidden">
+      <Card className="card-interactive flex h-full flex-col gap-0 overflow-hidden">
         <CardHeader className="pb-2">
           <div className="flex items-start gap-4">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10">

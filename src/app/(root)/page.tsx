@@ -18,32 +18,32 @@ export default async function Home() {
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <section className="hero-gradient mb-12 rounded-3xl border border-border/50 bg-card/30 p-8 md:p-16">
+      <section className="hero-surface mb-14 rounded-2xl border bg-card p-8 md:p-16">
         <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
-          <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-primary/10">
-            <Layers className="h-10 w-10 text-primary" />
+          <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl border bg-background">
+            <Layers className="h-7 w-7 text-primary" />
           </div>
-          <h1 className="mb-4 bg-gradient-to-r from-primary to-purple-400 bg-clip-text text-4xl font-bold text-transparent md:text-6xl">
+          <h1 className="mb-4 text-balance text-4xl font-semibold tracking-tight md:text-6xl">
             {user ? t("welcomeBack", { name: user.name ?? "" }) : t("title")}
           </h1>
-          <p className="mb-8 text-lg leading-relaxed text-muted-foreground md:text-xl">{t("subtitle")}</p>
+          <p className="mb-8 max-w-xl text-balance text-lg leading-relaxed text-muted-foreground">{t("subtitle")}</p>
           <div className="flex flex-wrap justify-center gap-4">
             {user ? (
-              <Button asChild size="lg" className="rounded-full">
+              <Button asChild size="lg" >
                 <Link href="/lists">
                   <FolderKanban className="h-5 w-5" />
                   {t("goToLists")}
                 </Link>
               </Button>
             ) : (
-              <Button asChild size="lg" className="rounded-full">
+              <Button asChild size="lg" >
                 <Link href="/signin">
                   <ListPlus className="h-5 w-5" />
                   {t("signInToStart")}
                 </Link>
               </Button>
             )}
-            <Button asChild size="lg" variant="outline" className="rounded-full">
+            <Button asChild size="lg" variant="outline" >
               <Link href="/lists">
                 <Sparkles className="h-5 w-5" />
                 {t("exploreLists")}
@@ -85,7 +85,7 @@ export default async function Home() {
               <Layers className="h-12 w-12 text-muted-foreground/60" />
               <p className="text-lg font-medium">{t("emptyTitle")}</p>
               <p className="text-muted-foreground">{t("emptyDescription")}</p>
-              <Button asChild className="mt-2 rounded-full">
+              <Button asChild className="mt-2">
                 <Link href="/lists">
                   <ListPlus className="h-4 w-4" />
                   {t("createNewList")}

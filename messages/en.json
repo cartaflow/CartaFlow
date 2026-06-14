@@ -1,15 +1,25 @@
 {
   "home": {
-    "title": "Welcome"
+    "title": "Welcome to CartaFlow",
+    "subtitle": "Organize your thoughts, share knowledge, and collaborate seamlessly. Create beautiful card collections that inspire and engage.",
+    "createNewList": "Create New List",
+    "exploreLists": "Explore Lists",
+    "featuredCollections": "Featured Collections",
+    "viewAll": "View All",
+    "cardCount": "{count} cards",
+    "viewCollection": "View Collection",
+    "byAuthor": "by {author}"
   },
   "header": {
     "lists": "Lists",
+    "collections": "Collections",
     "explore": "Explore",
     "themes": "Themes",
     "settings": "Settings",
     "profile": "Profile",
     "signUp": "Sign Up",
     "signIn": "Sign In",
+    "signOut": "Sign Out",
     "menu": "Menu"
   },
   "signin": {
@@ -38,10 +48,14 @@
     "lastUpdated": "Last updated on {UpdateDate, date, medium}",
     "newListDescription": "Create a new list to organize your content",
     "createList": "Create List",
+    "createListDescription": "Give your list a name, an icon and some tags to get started.",
     "fieldTitle": "Title",
     "fieldDescription": "Description",
+    "fieldTags": "Tags",
+    "fieldIcon": "Icon",
     "titlePlaceholder": "Enter list title...",
     "descriptionPlaceholder": "Enter list description (optional)...",
+    "tagPlaceholder": "Add a tag...",
     "cancel": "Cancel",
     "create": "Create",
     "creating": "Creating...",
@@ -56,5 +70,25 @@
     "cardCount": "{count} cards",
     "byAuthor": "by {author}",
     "viewCollection": "View Collection"
+  },
+  "settings": {
+    "sessions": {
+      "title": "Active Sessions",
+      "description": "Manage your connections across all your devices",
+      "securityNotice": "Security Notice",
+      "securityMessage": "If you see an unknown session, revoke it immediately and change your password.",
+      "current": "Current",
+      "activeNow": "Active now",
+      "unknownBrowser": "Unknown Browser",
+      "sessionManagement": "Session Management",
+      "revokeAllOtherSessions": "Revoke all other sessions",
+      "revokeAllDescription": "This will log you out of all other devices and browsers. Your current session will remain active.",
+      "revokeAllButton": "Revoke all other sessions ({count})",
+      "securityTips": "Security Tips",
+      "tip1": "Log out on public or shared devices",
+      "tip2": "Regularly check your active sessions",
+      "tip3": "Use strong passwords and two-factor authentication",
+      "tip4": "Keep your devices and browsers up to date"
+    }
   }
 }

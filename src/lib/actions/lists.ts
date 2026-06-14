@@ -3,179 +3,101 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/services/auth";
 import { revalidatePath } from "next/cache";
-import { createListSchema, updateListSchema } from "@/types/list";
+import { listSchema, type ListInput } from "@/types/list";
 
-export async function getLists() {
+async function requireUserId() {
   const session = await auth();
-  if (!session?.user) {
+  if (!session?.user?.id) {
     throw new Error("User not authenticated");
   }
+  return session.user.id;
+}
 
-  return prisma.list.findMany({
-    where: {
-      userId: session.user.id,
-    },
+export async function getLists() {
+  const userId = await requireUserId();
+
+  const lists = await prisma.list.findMany({
+    where: { userId },
     include: {
-      user: {
-        select: {
-          name: true,
-        },
-      },
+      user: { select: { name: true } },
+      _count: { select: { cards: true } },
     },
-    orderBy: {
-      createdAt: "desc",
-    },
+    orderBy: { createdAt: "desc" },
   });
+
+  return lists.map(({ _count, ...list }) => ({
+    ...list,
+    cardsCount: _count.cards,
+  }));
 }
 
 export async function getList(listId: string) {
-  const session = await auth();
-  if (!session?.user) {
-    throw new Error("User not authenticated");
-  }
+  const userId = await requireUserId();
 
-  const list = await prisma.list.findUnique({
-    where: {
-      id: listId,
-      userId: session.user.id,
-    },
+  const list = await prisma.list.findFirst({
+    where: { id: listId, userId },
     include: {
-      user: {
-        select: {
-          name: true,
-        },
-      },
+      user: { select: { name: true } },
+      _count: { select: { cards: true } },
     },
   });
 
-  return list;
+  if (!list) return null;
+
+  const { _count, ...rest } = list;
+  return { ...rest, cardsCount: _count.cards };
 }
 
+export async function createList(input: ListInput) {
+  const userId = await requireUserId();
+  const data = listSchema.parse(input);
 
-export async function createList(formData: FormData) {
-  const session = await auth();
-  if (!session?.user) {
-    throw new Error("User not authenticated");
-  }
-
-  const rawData = {
-    title: formData.get("title") as string,
-    description: (formData.get("description") as string | null) || undefined,
-    tags: formData.get("tags") ? JSON.parse(formData.get("tags") as string) : [],
-    icon: (formData.get("icon") as string) || "list",
-  };
-
-  const validatedData = createListSchema.parse(rawData);
-
-  await prisma.list.create({
+  const list = await prisma.list.create({
     data: {
-      title: validatedData.title,
-      description: validatedData.description || null,
-      tags: validatedData.tags || [],
-      icon: validatedData.icon || "list",
-      userId: session.user.id as string,
+      title: data.title,
+      description: data.description || null,
+      tags: data.tags ?? [],
+      icon: data.icon || "list",
+      cardTemplate: data.cardTemplate || null,
+      requireApproval: data.requireApproval ?? false,
+      userId,
     },
   });
 
   revalidatePath("/lists");
-  return;
+  return list.id;
 }
 
-export async function deleteList(listId: string) {
-  const session = await auth();
-  if (!session?.user) {
-    throw new Error("User not authenticated");
-  }
+export async function updateList(listId: string, input: ListInput) {
+  const userId = await requireUserId();
+  const data = listSchema.parse(input);
 
-  const list = await prisma.list.findUnique({
-    where: {
-      id: listId,
-      userId: session.user.id,
-    },
-  });
-
-  if (!list) {
-    throw new Error("List not found");
-  }
-
-  await prisma.list.delete({
-    where: { id: listId, userId: session.user.id },
-  });
-
-  revalidatePath("/lists");
-}
-
-export async function updateList(listId: string, formData: FormData) {
-  const session = await auth();
-  if (!session?.user) {
-    throw new Error("User not authenticated");
-  }
-
-  const rawData = {
-    title: formData.get("title") as string,
-    description: (formData.get("description") as string | null) || undefined,
-  };
-
-  const validatedData = createListSchema.parse(rawData);
-
-  const list = await prisma.list.findUnique({
-    where: {
-      id: listId,
-      userId: session.user.id,
-    },
-  });
-
-  if (!list) {
-    throw new Error("List not found");
-  }
+  const list = await prisma.list.findFirst({ where: { id: listId, userId } });
+  if (!list) throw new Error("List not found");
 
   await prisma.list.update({
-    where: { id: listId, userId: session.user.id },
+    where: { id: listId },
     data: {
-      title: validatedData.title,
-      description: validatedData.description || null,
-    },
-  });
-
-  revalidatePath("/lists");
-}
-
-export async function updateListAction(listId: string, formData: FormData) {
-  const session = await auth();
-  if (!session?.user) {
-    throw new Error("User not authenticated");
-  }
-
-  const rawData = {
-    title: formData.get("title") as string,
-    description: (formData.get("description") as string | null) || undefined,
-    tags: formData.get("tags") ? JSON.parse(formData.get("tags") as string) : [],
-    icon: (formData.get("icon") as string) || "list",
-  };
-
-  const validatedData = updateListSchema.parse(rawData);
-
-  const list = await prisma.list.findUnique({
-    where: {
-      id: listId,
-      userId: session.user.id,
-    },
-  });
-
-  if (!list) {
-    throw new Error("List not found");
-  }
-
-  await prisma.list.update({
-    where: { id: listId, userId: session.user.id },
-    data: {
-      title: validatedData.title,
-      description: validatedData.description || null,
-      tags: validatedData.tags || [],
-      icon: validatedData.icon || "list",
+      title: data.title,
+      description: data.description || null,
+      tags: data.tags ?? [],
+      icon: data.icon || "list",
+      cardTemplate: data.cardTemplate || null,
+      requireApproval: data.requireApproval ?? false,
     },
   });
 
   revalidatePath("/lists");
   revalidatePath(`/lists/${listId}`);
+}
+
+export async function deleteList(listId: string) {
+  const userId = await requireUserId();
+
+  const list = await prisma.list.findFirst({ where: { id: listId, userId } });
+  if (!list) throw new Error("List not found");
+
+  await prisma.list.delete({ where: { id: listId } });
+
+  revalidatePath("/lists");
 }

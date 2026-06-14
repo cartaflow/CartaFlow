@@ -8,19 +8,19 @@ export interface List extends PrismaList {
   cardsCount?: number;
 }
 
-export const createListSchema = z.object({
-  title: z.string().min(1).max(100),
-  description: z.string().optional(),
-  tags: z.array(z.string()).optional(),
+export const listSchema = z.object({
+  title: z.string().min(1, "titleRequired").max(100),
+  description: z.string().max(2000).optional().or(z.literal("")),
+  tags: z.array(z.string()).max(20).optional(),
   icon: z.string().optional(),
+  cardTemplate: z.string().max(2000).optional().or(z.literal("")),
+  requireApproval: z.boolean().optional(),
 });
 
-export const updateListSchema = z.object({
-  title: z.string().min(1).max(100),
-  description: z.string().optional(),
-  tags: z.array(z.string()).optional(),
-  icon: z.string().optional(),
-});
+// Kept as separate identifiers for clarity at call sites.
+export const createListSchema = listSchema;
+export const updateListSchema = listSchema;
 
-export type CreateListData = z.infer<typeof createListSchema>;
-export type UpdateListData = z.infer<typeof updateListSchema>;
+export type ListInput = z.infer<typeof listSchema>;
+export type CreateListData = ListInput;
+export type UpdateListData = ListInput;

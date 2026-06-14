@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { List } from "@/types/list";
 import IconSelector from "./detail/icon-selector";
 import TagEditor from "./detail/tag-editor";
-import { updateListAction } from "@/lib/actions/lists";
+import { updateList } from "@/lib/actions/lists";
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useTranslations } from "next-intl";
 import { deleteList } from "@/lib/actions/lists";
@@ -51,13 +51,12 @@ export default function ListDetailView({ list }: ListDetailViewProps) {
   const handleSave = async () => {
     setIsSubmitting(true);
     try {
-      const formData = new FormData();
-      formData.append("title", editData.title);
-      formData.append("description", editData.description);
-      formData.append("icon", editData.icon);
-      formData.append("tags", JSON.stringify(editData.tags));
-
-      await updateListAction(list.id, formData);
+      await updateList(list.id, {
+        title: editData.title,
+        description: editData.description,
+        icon: editData.icon,
+        tags: editData.tags,
+      });
       setIsEditing(false);
       router.refresh();
     } catch (error) {

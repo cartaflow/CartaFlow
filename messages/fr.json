@@ -1,15 +1,25 @@
 {
   "home": {
-    "title": "Bienvenue"
+    "title": "Bienvenue sur CartaFlow",
+    "subtitle": "Organisez vos idées, partagez vos connaissances et collaborez facilement. Créez de belles collections de cartes qui inspirent et engagent.",
+    "createNewList": "Créer une Nouvelle Liste",
+    "exploreLists": "Explorer les Listes",
+    "featuredCollections": "Collections en Vedette",
+    "viewAll": "Voir Tout",
+    "cardCount": "{count} cartes",
+    "viewCollection": "Voir la Collection",
+    "byAuthor": "par {author}"
   },
   "header": {
-    "lists": "Lists",
+    "lists": "Listes",
+    "collections": "Collections",
     "explore": "Explorer",
     "themes": "Thèmes",
     "settings": "Paramètres",
     "profile": "Profil",
     "signUp": "S'inscrire",
     "signIn": "Se connecter",
+    "signOut": "Se déconnecter",
     "menu": "Menu"
   },
   "signin": {
@@ -38,10 +48,14 @@
     "lastUpdated": "Dernière mise à jour le {UpdateDate, date, medium}",
     "newListDescription": "Créer une nouvelle liste pour organiser votre contenu",
     "createList": "Créer une Liste",
+    "createListDescription": "Donnez un nom, une icône et quelques tags à votre liste pour commencer.",
     "fieldTitle": "Titre",
     "fieldDescription": "Description",
+    "fieldTags": "Tags",
+    "fieldIcon": "Icône",
     "titlePlaceholder": "Entrez le titre de la liste...",
     "descriptionPlaceholder": "Entrez la description de la liste (optionnel)...",
+    "tagPlaceholder": "Ajouter un tag...",
     "cancel": "Annuler",
     "create": "Créer",
     "creating": "Création en cours...",
@@ -56,5 +70,25 @@
     "cardCount": "{count} cartes",
     "byAuthor": "par {author}",
     "viewCollection": "Voir la Collection"
+  },
+  "settings": {
+    "sessions": {
+      "title": "Sessions actives",
+      "description": "Gérez vos connexions sur tous vos appareils",
+      "securityNotice": "Avis de sécurité",
+      "securityMessage": "Si vous voyez une session inconnue, révoquez-la immédiatement et changez votre mot de passe.",
+      "current": "Actuel",
+      "activeNow": "Actif maintenant",
+      "unknownBrowser": "Navigateur inconnu",
+      "sessionManagement": "Gestion des sessions",
+      "revokeAllOtherSessions": "Révoquer toutes les autres sessions",
+      "revokeAllDescription": "Cela vous déconnectera de tous les autres appareils et navigateurs. Votre session actuelle restera active.",
+      "revokeAllButton": "Révoquer toutes les autres sessions ({count})",
+      "securityTips": "Conseils de sécurité",
+      "tip1": "Déconnectez-vous sur les appareils publics ou partagés",
+      "tip2": "Vérifiez régulièrement vos sessions actives",
+      "tip3": "Utilisez des mots de passe forts et l'authentification à deux facteurs",
+      "tip4": "Maintenez vos appareils et navigateurs à jour"
+    }
   }
 }

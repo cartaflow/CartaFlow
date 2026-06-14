@@ -9,9 +9,10 @@ import { Badge } from "@/components/ui/badge";
 interface TagEditorProps {
   tags: string[];
   onTagsChange: (tags: string[]) => void;
+  placeholder?: string;
 }
 
-export default function TagEditor({ tags, onTagsChange }: TagEditorProps) {
+export default function TagEditor({ tags, onTagsChange, placeholder = "Add a tag..." }: TagEditorProps) {
   const [inputValue, setInputValue] = useState("");
 
   const addTag = () => {
@@ -62,7 +63,7 @@ export default function TagEditor({ tags, onTagsChange }: TagEditorProps) {
       {/* Add New Tag */}
       <div className="flex gap-2">
         <Input
-          placeholder="Add a tag..."
+          placeholder={placeholder}
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}

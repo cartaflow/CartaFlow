@@ -13,7 +13,7 @@ export default function NotificationsPage() {
     smtpUser: "noreply@cartaflow.com",
     smtpPassword: "",
     fromName: "CartaFlow",
-    fromEmail: "noreply@cartaflow.com"
+    fromEmail: "noreply@cartaflow.com",
   });
 
   const [notificationTypes, setNotificationTypes] = useState({
@@ -24,13 +24,13 @@ export default function NotificationsPage() {
     follow: { email: false, push: true, inApp: true },
     like: { email: false, push: false, inApp: true },
     moderation: { email: true, push: true, inApp: true },
-    systemAlert: { email: true, push: true, inApp: true }
+    systemAlert: { email: true, push: true, inApp: true },
   });
 
   const [pushSettings, setPushSettings] = useState({
     vapidPublicKey: "",
     vapidPrivateKey: "",
-    enabled: false
+    enabled: false,
   });
 
   const handleEmailSettingChange = (field: string, value: string) => {
@@ -40,7 +40,7 @@ export default function NotificationsPage() {
   const handleNotificationChange = (type: keyof typeof notificationTypes, method: string, value: boolean) => {
     setNotificationTypes(prev => ({
       ...prev,
-      [type]: { ...prev[type], [method]: value }
+      [type]: { ...prev[type], [method]: value },
     }));
   };
 
@@ -49,7 +49,7 @@ export default function NotificationsPage() {
   };
 
   const testEmailConfiguration = async () => {
-    console.log("Testing email configuration");
+    console.info("Testing email configuration");
     alert("Test email sent!");
   };
 
@@ -57,12 +57,12 @@ export default function NotificationsPage() {
     setPushSettings(prev => ({
       ...prev,
       vapidPublicKey: "BCd..." + Math.random().toString(36),
-      vapidPrivateKey: "abc..." + Math.random().toString(36)
+      vapidPrivateKey: "abc..." + Math.random().toString(36),
     }));
   };
 
   const handleSave = async () => {
-    console.log("Saving notification settings");
+    console.info("Saving notification settings");
   };
 
   return (
@@ -223,7 +223,7 @@ export default function NotificationsPage() {
                 <div className="flex items-center gap-2">
                   <Users className="h-4 w-4" />
                   <span className="text-sm font-medium capitalize">
-                    {type.replace(/([A-Z])/g, ' $1').trim()}
+                    {type.replace(/([A-Z])/g, " $1").trim()}
                   </span>
                 </div>
                 <div className="text-center">

@@ -11,13 +11,13 @@ export default function AccountPage() {
     email: "john.doe@example.com",
     currentPassword: "",
     newPassword: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
   
   const [showPasswords, setShowPasswords] = useState({
     current: false,
     new: false,
-    confirm: false
+    confirm: false,
   });
 
   const handleInputChange = (field: string, value: string) => {
@@ -29,7 +29,7 @@ export default function AccountPage() {
   };
 
   const handleEmailChange = async () => {
-    console.log("Changing email to:", account.email);
+    console.info("Changing email to:", account.email);
   };
 
   const handlePasswordChange = async () => {
@@ -37,12 +37,12 @@ export default function AccountPage() {
       alert("New passwords don't match");
       return;
     }
-    console.log("Changing password");
+    console.info("Changing password");
   };
 
   const handleDeleteAccount = async () => {
     if (confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
-      console.log("Deleting account");
+      console.info("Deleting account");
     }
   };
 
@@ -72,7 +72,7 @@ export default function AccountPage() {
                 />
               </div>
               <p className="text-sm text-muted-foreground">
-                We'll send a verification email to your new address before making the change.
+                We&apos;ll send a verification email to your new address before making the change.
               </p>
               <div className="flex justify-end">
                 <Button onClick={handleEmailChange}>Update Email</Button>

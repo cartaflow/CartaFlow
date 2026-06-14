@@ -37,7 +37,7 @@ export default async function ListsPage() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid gap-3">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {lists.map((list) => (
             <ListCard key={list.id} list={list} />
           ))}

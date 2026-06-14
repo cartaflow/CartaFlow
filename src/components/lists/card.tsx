@@ -1,6 +1,6 @@
 "use client";
 
-import { ListIcon } from "lucide-react";
+import { ListIcon, ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,51 +17,44 @@ export default function ListCard({ list }: ListCardProps) {
   const Icon = iconMap[list.icon] || ListIcon;
 
   return (
-    <Link href={`/lists/${list.id}`}>
-      <Card className="featured-card gap-0 hover:shadow-lg transition-shadow">
-        <CardHeader className="pb-0">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="h-12 w-12 rounded-sm bg-primary/10 flex items-center justify-center">
+    <Link href={`/lists/${list.id}`} className="group block h-full">
+      <Card className="featured-card flex h-full flex-col gap-0 overflow-hidden">
+        <CardHeader className="pb-2">
+          <div className="flex items-start gap-4">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10">
               <Icon className="h-6 w-6 text-primary" />
             </div>
-            <div className="flex-1">
-              <div className="flex items-start justify-between">
-                <div>
-                  <CardTitle className="text-xl">{list.title}</CardTitle>
-                  <p className="text-sm text-muted-foreground">
-                    {t("byAuthor", { author: list.user?.name || "" })}
-                  </p>
-                </div>
-              </div>
+            <div className="min-w-0 flex-1">
+              <CardTitle className="truncate text-xl group-hover:text-primary">{list.title}</CardTitle>
+              <p className="truncate text-sm text-muted-foreground">
+                {t("byAuthor", { author: list.user?.name || "" })}
+              </p>
             </div>
           </div>
         </CardHeader>
 
-        <CardContent className="flex justify-between">
-          <div>
-            {list.description && (
-              <div className="mb-2">{list.description}</div>
-            )}
+        <CardContent className="flex flex-1 flex-col gap-3 pt-2">
+          {list.description && (
+            <p className="line-clamp-2 text-sm text-muted-foreground">{list.description}</p>
+          )}
 
-            {list.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2 mb-2">
-                {list.tags.map((tag) => (
-                  <Badge key={tag} variant="secondary" className="rounded-full">
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-            )}
-          </div>
-          <div>
-            <div className="flex items-center justify-end">
-              <span className="text-sm text-muted-foreground">
-                {t("cardCount", { count: list.cardsCount || 0 })}
-              </span>
+          {list.tags.length > 0 && (
+            <div className="flex flex-wrap gap-1.5">
+              {list.tags.slice(0, 4).map((tag) => (
+                <Badge key={tag} variant="secondary" className="rounded-full">{tag}</Badge>
+              ))}
+              {list.tags.length > 4 && (
+                <Badge variant="outline" className="rounded-full">+{list.tags.length - 4}</Badge>
+              )}
             </div>
-            <p className="text-xs text-muted-foreground mt-2">
-              {t("created", { CreationDate: list.createdAt })}
-            </p>
+          )}
+
+          <div className="mt-auto flex items-center justify-between pt-2 text-sm text-muted-foreground">
+            <span>{t("cardCount", { count: list.cardsCount || 0 })}</span>
+            <span className="flex items-center gap-1 text-primary opacity-0 transition-opacity group-hover:opacity-100">
+              {t("viewCollection")}
+              <ArrowRight className="h-4 w-4" />
+            </span>
           </div>
         </CardContent>
       </Card>

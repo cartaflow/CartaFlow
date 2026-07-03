@@ -17,6 +17,7 @@ model User {
   username  String
   name      String
   lists     List[]
+  cards     Card[]
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 }
@@ -29,10 +30,35 @@ model List {
   icon            String   @default("list")
   cardTemplate    String?  @map("card_template")
   requireApproval Boolean  @default(false) @map("require_approval")
+  public          Boolean  @default(true)
   userId          String   @map("user_id")
   user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cards           Card[]
   createdAt       DateTime @default(now()) @map("created_at")
   updatedAt       DateTime @updatedAt @map("updated_at")
 
   @@index([userId])
+}
+
+enum CardStatus {
+  PUBLISHED
+  PENDING
+}
+
+model Card {
+  id          String     @id @default(cuid())
+  title       String
+  description String?
+  url         String?
+  image       String?
+  tags        String[]   @default([])
+  status      CardStatus @default(PUBLISHED)
+  listId      String     @map("list_id")
+  list        List       @relation(fields: [listId], references: [id], onDelete: Cascade)
+  userId      String     @map("user_id")
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+
+  @@index([listId])
 }

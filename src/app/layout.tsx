@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { getLocale, getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
-import { auth } from "@/services/auth";
+import { getLocale, getMessages } from "next-intl/server";
 import { SessionProvider } from "@/providers/session";
+import { auth } from "@/services/auth";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,12 +32,11 @@ export default async function RootLayout({
   const locale = await getLocale();
   const messages = await getMessages();
   return (
-    <html
-      lang={locale}
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
+    <html lang={locale} className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <NextIntlClientProvider messages={messages}><SessionProvider session={session}>{children}</SessionProvider></NextIntlClientProvider>
+        <NextIntlClientProvider messages={messages}>
+          <SessionProvider session={session}>{children}</SessionProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

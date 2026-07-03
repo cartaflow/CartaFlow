@@ -41,12 +41,16 @@
     "list": {
       "singular": "liste",
       "plural": "listes"
+    },
+    "card": {
+      "singular": "carte",
+      "plural": "cartes"
     }
   },
   "list": {
     "page": {
       "title": "Listes",
-      "subtitle": "Gérez vos listes",
+      "subtitle": "Parcourez les listes publiques",
       "new": "Nouvelle liste",
       "empty": "Aucune liste pour le moment.",
       "emptyCta": "Créer votre première liste",
@@ -56,6 +60,7 @@
       "delete": "Supprimer",
       "yes": "Oui",
       "no": "Non",
+      "private": "Privée",
       "columns": {
         "title": "Titre",
         "tags": "Tags",
@@ -70,6 +75,7 @@
       "tagsPlaceholder": "Tags séparés par des virgules",
       "icon": "Icône",
       "cardTemplate": "Modèle de description de carte",
+      "public": "Visible par tout le monde",
       "requireApproval": "Les nouvelles cartes doivent être approuvées avant d'être visibles",
       "submit": {
         "create": "Créer",
@@ -81,6 +87,45 @@
         "titleTooLong": "Le titre est trop long",
         "descriptionTooLong": "La description est trop longue",
         "templateTooLong": "Le modèle est trop long"
+      }
+    }
+  },
+  "card": {
+    "section": {
+      "title": "Cartes",
+      "addCard": "Ajouter une carte",
+      "export": "Exporter",
+      "import": "Importer",
+      "searchPlaceholder": "Rechercher des cartes…",
+      "sortNewest": "Plus récentes",
+      "sortOldest": "Plus anciennes",
+      "sortTitle": "Titre",
+      "empty": "Aucune carte ne correspond à vos filtres."
+    },
+    "item": {
+      "pending": "En attente d'approbation",
+      "approve": "Approuver",
+      "edit": "Modifier",
+      "duplicate": "Dupliquer",
+      "delete": "Supprimer"
+    },
+    "form": {
+      "title": "Titre",
+      "description": "Description",
+      "url": "URL",
+      "image": "URL de l'image",
+      "tags": "Tags",
+      "tagsPlaceholder": "Tags séparés par des virgules",
+      "submit": {
+        "create": "Ajouter la carte",
+        "update": "Enregistrer"
+      },
+      "cancel": "Annuler",
+      "validation": {
+        "titleRequired": "Ce champ est requis",
+        "titleTooLong": "Le titre est trop long",
+        "descriptionTooLong": "La description est trop longue",
+        "invalidUrl": "URL invalide"
       }
     }
   }

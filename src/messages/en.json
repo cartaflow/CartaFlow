@@ -41,12 +41,16 @@
     "list": {
       "singular": "list",
       "plural": "lists"
+    },
+    "card": {
+      "singular": "card",
+      "plural": "cards"
     }
   },
   "list": {
     "page": {
       "title": "Lists",
-      "subtitle": "Manage your lists",
+      "subtitle": "Browse public lists",
       "new": "New list",
       "empty": "No lists yet.",
       "emptyCta": "Create your first list",
@@ -56,6 +60,7 @@
       "delete": "Delete",
       "yes": "Yes",
       "no": "No",
+      "private": "Private",
       "columns": {
         "title": "Title",
         "tags": "Tags",
@@ -70,6 +75,7 @@
       "tagsPlaceholder": "Comma-separated tags",
       "icon": "Icon",
       "cardTemplate": "Card description template",
+      "public": "Visible to everyone",
       "requireApproval": "New cards require approval before being visible",
       "submit": {
         "create": "Create",
@@ -81,6 +87,45 @@
         "titleTooLong": "Title is too long",
         "descriptionTooLong": "Description is too long",
         "templateTooLong": "Template is too long"
+      }
+    }
+  },
+  "card": {
+    "section": {
+      "title": "Cards",
+      "addCard": "Add card",
+      "export": "Export",
+      "import": "Import",
+      "searchPlaceholder": "Search cards…",
+      "sortNewest": "Newest",
+      "sortOldest": "Oldest",
+      "sortTitle": "Title",
+      "empty": "No cards match your filters."
+    },
+    "item": {
+      "pending": "Pending approval",
+      "approve": "Approve",
+      "edit": "Edit",
+      "duplicate": "Duplicate",
+      "delete": "Delete"
+    },
+    "form": {
+      "title": "Title",
+      "description": "Description",
+      "url": "URL",
+      "image": "Image URL",
+      "tags": "Tags",
+      "tagsPlaceholder": "Comma-separated tags",
+      "submit": {
+        "create": "Add card",
+        "update": "Save"
+      },
+      "cancel": "Cancel",
+      "validation": {
+        "titleRequired": "This field is required",
+        "titleTooLong": "Title is too long",
+        "descriptionTooLong": "Description is too long",
+        "invalidUrl": "Invalid URL"
       }
     }
   }

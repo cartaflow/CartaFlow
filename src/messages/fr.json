@@ -2,5 +2,86 @@
   "Home": {
     "title": "Bienvenue",
     "description": "Modifiez src/app/page.tsx pour commencer."
+  },
+  "actions": {
+    "retry": "Réessayer",
+    "backToHome": "Retour à l'accueil",
+    "previousPage": "Page précédente",
+    "signin": "Se connecter",
+    "signout": "Se déconnecter"
+  },
+  "errors": {
+    "generic": {
+      "title": "Une erreur est survenue",
+      "description": "Une erreur inattendue s'est produite. Veuillez réessayer.",
+      "errorCode": "Code d'erreur"
+    },
+    "unknown": {
+      "title": "Une erreur est survenue",
+      "description": "Une erreur inattendue s'est produite. Veuillez réessayer."
+    },
+    "notFound": {
+      "title": "Introuvable",
+      "description": "Ce {resource} est introuvable ou n'existe pas."
+    },
+    "forbidden": {
+      "title": "Accès refusé",
+      "description": "Vous n'avez pas les permissions nécessaires pour accéder à ce {resource}."
+    },
+    "unauthenticated": {
+      "title": "Non authentifié",
+      "description": "Vous devez être connecté pour accéder à cette page."
+    }
+  },
+  "resources": {
+    "user": {
+      "singular": "utilisateur",
+      "plural": "utilisateurs"
+    },
+    "list": {
+      "singular": "liste",
+      "plural": "listes"
+    }
+  },
+  "list": {
+    "page": {
+      "title": "Listes",
+      "subtitle": "Gérez vos listes",
+      "new": "Nouvelle liste",
+      "empty": "Aucune liste pour le moment.",
+      "emptyCta": "Créer votre première liste",
+      "back": "← Retour",
+      "backToList": "Retour à la liste",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "yes": "Oui",
+      "no": "Non",
+      "columns": {
+        "title": "Titre",
+        "tags": "Tags",
+        "description": "Description",
+        "requireApproval": "Approbation requise"
+      }
+    },
+    "form": {
+      "title": "Titre",
+      "description": "Description",
+      "tags": "Tags",
+      "tagsPlaceholder": "Tags séparés par des virgules",
+      "icon": "Icône",
+      "cardTemplate": "Modèle de description de carte",
+      "requireApproval": "Les nouvelles cartes doivent être approuvées avant d'être visibles",
+      "submit": {
+        "create": "Créer",
+        "update": "Enregistrer"
+      },
+      "cancel": "Annuler",
+      "validation": {
+        "titleRequired": "Ce champ est requis",
+        "titleTooLong": "Le titre est trop long",
+        "descriptionTooLong": "La description est trop longue",
+        "templateTooLong": "Le modèle est trop long"
+      }
+    }
   }
 }

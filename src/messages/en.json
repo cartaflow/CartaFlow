@@ -2,5 +2,86 @@
   "Home": {
     "title": "Welcome",
     "description": "Edit src/app/page.tsx to get started."
+  },
+  "actions": {
+    "retry": "Try again",
+    "backToHome": "Back to home",
+    "previousPage": "Previous page",
+    "signin": "Sign in",
+    "signout": "Sign out"
+  },
+  "errors": {
+    "generic": {
+      "title": "Something went wrong",
+      "description": "An unexpected error occurred. Please try again.",
+      "errorCode": "Error code"
+    },
+    "unknown": {
+      "title": "Something went wrong",
+      "description": "An unexpected error occurred. Please try again."
+    },
+    "notFound": {
+      "title": "Not found",
+      "description": "This {resource} could not be found or does not exist."
+    },
+    "forbidden": {
+      "title": "Access denied",
+      "description": "You do not have permission to access this {resource}."
+    },
+    "unauthenticated": {
+      "title": "Not authenticated",
+      "description": "You must be signed in to access this page."
+    }
+  },
+  "resources": {
+    "user": {
+      "singular": "user",
+      "plural": "users"
+    },
+    "list": {
+      "singular": "list",
+      "plural": "lists"
+    }
+  },
+  "list": {
+    "page": {
+      "title": "Lists",
+      "subtitle": "Manage your lists",
+      "new": "New list",
+      "empty": "No lists yet.",
+      "emptyCta": "Create your first list",
+      "back": "← Back",
+      "backToList": "Back to list",
+      "edit": "Edit",
+      "delete": "Delete",
+      "yes": "Yes",
+      "no": "No",
+      "columns": {
+        "title": "Title",
+        "tags": "Tags",
+        "description": "Description",
+        "requireApproval": "Requires approval"
+      }
+    },
+    "form": {
+      "title": "Title",
+      "description": "Description",
+      "tags": "Tags",
+      "tagsPlaceholder": "Comma-separated tags",
+      "icon": "Icon",
+      "cardTemplate": "Card description template",
+      "requireApproval": "New cards require approval before being visible",
+      "submit": {
+        "create": "Create",
+        "update": "Save"
+      },
+      "cancel": "Cancel",
+      "validation": {
+        "titleRequired": "This field is required",
+        "titleTooLong": "Title is too long",
+        "descriptionTooLong": "Description is too long",
+        "templateTooLong": "Template is too long"
+      }
+    }
   }
 }

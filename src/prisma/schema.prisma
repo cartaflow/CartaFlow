@@ -11,15 +11,17 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  oid       String   @unique
-  email     String
-  username  String
-  name      String
-  lists     List[]
-  cards     Card[]
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id          String   @id @default(cuid())
+  oid         String   @unique
+  email       String
+  username    String
+  name        String
+  bio         String?
+  socialLinks Json     @default("[]") @map("social_links")
+  lists       List[]
+  cards       Card[]
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 }
 
 model List {

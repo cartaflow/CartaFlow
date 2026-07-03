@@ -61,6 +61,7 @@
       "yes": "Oui",
       "no": "Non",
       "private": "Privée",
+      "createdBy": "Créée par {name}",
       "columns": {
         "title": "Titre",
         "tags": "Tags",
@@ -125,6 +126,24 @@
         "titleRequired": "Ce champ est requis",
         "titleTooLong": "Le titre est trop long",
         "descriptionTooLong": "La description est trop longue",
+        "invalidUrl": "URL invalide"
+      }
+    }
+  },
+  "profile": {
+    "page": {
+      "edit": "Modifier le profil"
+    },
+    "form": {
+      "bio": "Bio",
+      "socialLinks": "Liens sociaux",
+      "linkType": "Type",
+      "linkUrl": "URL",
+      "addLink": "Ajouter un lien",
+      "save": "Enregistrer",
+      "validation": {
+        "bioTooLong": "La bio est trop longue",
+        "linkTypeRequired": "Ce champ est requis",
         "invalidUrl": "URL invalide"
       }
     }

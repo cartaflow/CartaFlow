@@ -43,6 +43,12 @@ export default async function ListPage({ params }: { params: Promise<{ id: strin
             </Link>
           )}
         </div>
+        <Link
+          href={`/profile/${current.user.id}`}
+          className="text-sm text-muted-foreground hover:underline mt-1 inline-block"
+        >
+          {translations("createdBy", { name: current.user.name })}
+        </Link>
         {current.description && <p className="text-muted-foreground mt-2">{current.description}</p>}
         {current.tags.length > 0 && <p className="text-sm text-muted-foreground mt-1">{current.tags.join(", ")}</p>}
       </div>

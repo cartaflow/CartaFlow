@@ -28,8 +28,11 @@ export const list = {
     });
   },
 
-  async read(id: string): Promise<List> {
-    const found = await prisma.list.findUnique({ where: { id } });
+  async read(id: string) {
+    const found = await prisma.list.findUnique({
+      where: { id },
+      include: { user: { select: { id: true, name: true, username: true } } },
+    });
     if (!found) throw new NotFoundError(RESOURCE);
 
     if (!found.public) {

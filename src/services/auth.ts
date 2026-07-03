@@ -6,7 +6,7 @@ const decodeJWT = (token: string) => JSON.parse(Buffer.from(token.split(".")[1],
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers,
   session: { strategy: "jwt" },
-  pages: { signIn: "/api/auth/", error: "/error" },
+  pages: { signIn: "/signin", error: "/error" },
   callbacks: {
     authorized: async ({ auth }) => !!auth,
 

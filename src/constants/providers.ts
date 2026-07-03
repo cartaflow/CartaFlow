@@ -84,3 +84,9 @@ const providerDefinitions: ProviderDefinition[] = [
 export const providers: Provider[] = providerDefinitions
   .filter((provider) => provider.vars.every((key) => process.env[key]))
   .map((provider) => provider.config());
+
+/** id/name pairs for rendering sign-in buttons without exposing the full provider config. */
+export const providerOptions = providers.map((provider) => {
+  const { id, name } = provider as { id: string; name: string };
+  return { id, name };
+});

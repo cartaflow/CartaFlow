@@ -16,6 +16,23 @@ model User {
   email     String
   username  String
   name      String
+  lists     List[]
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model List {
+  id              String   @id @default(cuid())
+  title           String
+  description     String?
+  tags            String[] @default([])
+  icon            String   @default("list")
+  cardTemplate    String?  @map("card_template")
+  requireApproval Boolean  @default(false) @map("require_approval")
+  userId          String   @map("user_id")
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
 }

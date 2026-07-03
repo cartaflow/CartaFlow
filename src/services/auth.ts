@@ -1,21 +1,10 @@
 import NextAuth, { type Session } from "next-auth";
-import MicrosoftEntraID from "next-auth/providers/microsoft-entra-id";
+import { providers } from "@/constants/providers";
 
 const decodeJWT = (token: string) => JSON.parse(Buffer.from(token.split(".")[1], "base64url").toString());
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  providers: [
-    MicrosoftEntraID({
-      clientId: process.env.ENTRA_ID,
-      clientSecret: process.env.ENTRA_SECRET,
-      issuer: process.env.ENTRA_ISSUER,
-      authorization: {
-        params: {
-          scope: `openid email profile ${process.env.ENTRA_ID}/.default`,
-        },
-      },
-    }),
-  ],
+  providers,
   session: { strategy: "jwt" },
   pages: { signIn: "/api/auth/", error: "/error" },
   callbacks: {
@@ -52,7 +41,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       user: {
         email: token.email ?? session.user?.email,
         name: token.name,
-        userId: token.uniqueId,
+        id: token.uniqueId,
         oid: token.oid,
         tid: token.tid,
         groups: token.groups ?? [],
@@ -65,9 +54,4 @@ export async function getUser() {
   const session = await auth();
   if (!session?.user) throw new Error("User not authenticated");
   return session.user;
-}
-
-export async function getUserGroups(): Promise<string[]> {
-  const user = await getUser();
-  return user.groups ?? [];
 }

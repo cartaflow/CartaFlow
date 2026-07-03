@@ -7,7 +7,7 @@ declare module "next-auth" {
       name: string;
       email: string;
       image?: string;
-      userId: string;
+      id: string;
       oid: string;
       tid: string;
       groups: string[];

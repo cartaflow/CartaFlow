@@ -85,6 +85,7 @@ export const card = {
         url: data.url || null,
         image: data.image || null,
         tags: data.tags ?? [],
+        status: nextStatus(existing.list.userId === current.id, existing.list.requireApproval),
       },
     });
   },

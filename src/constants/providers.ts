@@ -1,5 +1,8 @@
 import type { Provider } from "next-auth/providers";
+import Apple from "next-auth/providers/apple";
+import Facebook from "next-auth/providers/facebook";
 import GitHub from "next-auth/providers/github";
+import GitLab from "next-auth/providers/gitlab";
 import Google from "next-auth/providers/google";
 import MicrosoftEntraID from "next-auth/providers/microsoft-entra-id";
 
@@ -38,6 +41,30 @@ const providerDefinitions: ProviderDefinition[] = [
       Google({
         clientId: process.env.AUTH_GOOGLE_ID,
         clientSecret: process.env.AUTH_GOOGLE_SECRET,
+      }),
+  },
+  {
+    vars: ["AUTH_APPLE_ID", "AUTH_APPLE_SECRET"],
+    config: () =>
+      Apple({
+        clientId: process.env.AUTH_APPLE_ID,
+        clientSecret: process.env.AUTH_APPLE_SECRET,
+      }),
+  },
+  {
+    vars: ["AUTH_FACEBOOK_ID", "AUTH_FACEBOOK_SECRET"],
+    config: () =>
+      Facebook({
+        clientId: process.env.AUTH_FACEBOOK_ID,
+        clientSecret: process.env.AUTH_FACEBOOK_SECRET,
+      }),
+  },
+  {
+    vars: ["AUTH_GITLAB_ID", "AUTH_GITLAB_SECRET"],
+    config: () =>
+      GitLab({
+        clientId: process.env.AUTH_GITLAB_ID,
+        clientSecret: process.env.AUTH_GITLAB_SECRET,
       }),
   },
   {

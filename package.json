@@ -1,6 +1,6 @@
 {
   "name": "cartaflow",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "docker run -d --name $npm_package_name-db --rm -p 37874:5432 -e POSTGRES_USER=app -e POSTGRES_PASSWORD=password -e POSTGRES_DB=dev -v $npm_package_name-db:/var/lib/postgresql/data postgres:18-alpine 2>/dev/null; bunx prisma generate && next dev",

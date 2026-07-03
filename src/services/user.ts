@@ -9,6 +9,7 @@ async function read(): Promise<User> {
   if (!session?.user) throw new UnauthenticatedError();
 
   const { oid, email, name } = session.user;
+  if (!oid || !email) throw new UnauthenticatedError("missing oid or email claim");
 
   return prisma.user.upsert({
     where: { oid },

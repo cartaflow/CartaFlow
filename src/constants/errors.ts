@@ -5,6 +5,7 @@ export class NotFoundError extends Error {
     super(`${resource} not found`);
     this.name = "NotFoundError";
     this.resource = resource;
+    console.error(this);
   }
 }
 
@@ -15,13 +16,15 @@ export class ForbiddenError extends Error {
     super(`${resource} access denied`);
     this.name = "ForbiddenError";
     this.resource = resource;
+    console.error(this);
   }
 }
 
 export class UnauthenticatedError extends Error {
   readonly code = "unauthenticated";
-  constructor() {
-    super("User not authenticated");
+  constructor(reason?: string) {
+    super(reason ? `User not authenticated: ${reason}` : "User not authenticated");
     this.name = "UnauthenticatedError";
+    console.error(this);
   }
 }

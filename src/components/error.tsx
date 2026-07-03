@@ -19,6 +19,9 @@ export async function ErrorPage({ error }: ErrorPageProps) {
   const code = error.code ?? "unknown";
   const resourceName = resourceKey ? translations.resources(`${resourceKey}.singular`) : "";
 
+  const knownCodes = ["notFound", "forbidden", "unauthenticated"];
+  if (!knownCodes.includes(code)) console.error(error);
+
   return (
     <div className="flex-1 flex items-center justify-center p-6">
       <div className="max-w-md w-full text-center space-y-6">

@@ -2,7 +2,6 @@
 
 import { AlertTriangle, Home, RefreshCw } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
 export default function ErrorPage({
@@ -16,10 +15,6 @@ export default function ErrorPage({
     error: useTranslations("errors.generic"),
     actions: useTranslations("actions"),
   };
-
-  useEffect(() => {
-    if (error) console.error(error);
-  }, [error]);
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6">

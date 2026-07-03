@@ -10,6 +10,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
+RUN bunx prisma generate
 RUN node node_modules/.bin/next build
 
 # ─── runner ──────────────────────────────────────────────────────────────────

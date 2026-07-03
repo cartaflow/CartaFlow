@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { ErrorPage } from "@/components/error";
-import { ListForm } from "@/components/forms/list";
+import { ListForm } from "@/components/list/form";
 import { list } from "@/services/list";
 import { updateList } from "../../actions";
 
@@ -28,6 +28,7 @@ export default async function EditListPage({ params }: { params: Promise<{ id: s
           icon: current.icon,
           cardTemplate: current.cardTemplate ?? "",
           requireApproval: current.requireApproval,
+          public: current.public,
         }}
         action={updateList.bind(null, id)}
         mode="update"

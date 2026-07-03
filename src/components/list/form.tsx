@@ -116,6 +116,13 @@ export function ListForm({ defaultValues, action, mode }: ListFormProps) {
       </div>
 
       <div className="flex items-center gap-2">
+        <input id="public" type="checkbox" {...register("public")} className="h-4 w-4" />
+        <label htmlFor="public" className="text-sm font-medium">
+          {translations("public")}
+        </label>
+      </div>
+
+      <div className="flex items-center gap-2">
         <input id="requireApproval" type="checkbox" {...register("requireApproval")} className="h-4 w-4" />
         <label htmlFor="requireApproval" className="text-sm font-medium">
           {translations("requireApproval")}

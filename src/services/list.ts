@@ -15,19 +15,28 @@ export interface ListData {
   icon?: string;
   cardTemplate?: string;
   requireApproval?: boolean;
+  public?: boolean;
 }
 
 export const list = {
-  /** The current user's own lists. */
+  /** Public lists are visible to everyone; private ones only show up for their owner. */
   async list(): Promise<List[]> {
-    const current = await user.read();
-    return prisma.list.findMany({ where: { userId: current.id }, orderBy: { createdAt: "desc" } });
+    const current = await user.read().catch(() => null);
+    return prisma.list.findMany({
+      where: current ? { OR: [{ public: true }, { userId: current.id }] } : { public: true },
+      orderBy: { createdAt: "desc" },
+    });
   },
 
-  /** Lists are public: no ownership check on read. */
   async read(id: string): Promise<List> {
     const found = await prisma.list.findUnique({ where: { id } });
     if (!found) throw new NotFoundError(RESOURCE);
+
+    if (!found.public) {
+      const current = await user.read().catch(() => null);
+      if (current?.id !== found.userId) throw new ForbiddenError(RESOURCE);
+    }
+
     return found;
   },
 
@@ -44,6 +53,7 @@ export const list = {
         icon: data.icon || "list",
         cardTemplate: data.cardTemplate || null,
         requireApproval: data.requireApproval ?? false,
+        public: data.public ?? true,
         userId: current.id,
       },
     });
@@ -66,6 +76,7 @@ export const list = {
         icon: data.icon || "list",
         cardTemplate: data.cardTemplate || null,
         requireApproval: data.requireApproval ?? false,
+        public: data.public ?? true,
       },
     });
   },

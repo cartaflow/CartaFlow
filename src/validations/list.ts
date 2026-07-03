@@ -15,6 +15,7 @@ export function buildListSchema(msgs: ListSchemaMessages) {
     icon: z.string().optional(),
     cardTemplate: z.string().max(2000, msgs.templateTooLong).optional().or(z.literal("")),
     requireApproval: z.boolean().optional(),
+    public: z.boolean().optional(),
   });
 }
 

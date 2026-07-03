@@ -20,6 +20,7 @@ function toListData(data: ListFormValues): ListData {
     icon: data.icon,
     cardTemplate: data.cardTemplate,
     requireApproval: data.requireApproval,
+    public: data.public,
   };
 }
 

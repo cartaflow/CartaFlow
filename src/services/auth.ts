@@ -10,26 +10,28 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     authorized: async ({ auth }) => !!auth,
 
-    jwt: async ({ token, account }) => {
+    jwt: async ({ token, account, user }) => {
+      if (!account) return token;
+
       try {
-        if (account?.access_token && account?.id_token) {
-          const accessToken = decodeJWT(account.access_token);
-          const idToken = decodeJWT(account.id_token);
+        // Only true OIDC providers (Entra ID, Google, Apple, generic OIDC) issue an id_token;
+        // plain OAuth2 providers (GitHub, GitLab, Facebook) don't, so idToken stays null for them.
+        const idToken = account.id_token ? decodeJWT(account.id_token) : null;
+        // providerAccountId is the one field every provider guarantees; namespaced to avoid
+        // collisions between two providers that happen to reuse the same account id.
+        const fallbackId = `${account.provider}:${account.providerAccountId}`;
 
-          return {
-            ...token,
-            expires_at: account.expires_at as number,
-            oid: idToken.oid,
-            tid: accessToken.tid,
-            email: idToken.email,
-            picture: token.picture,
-            uniqueId: idToken.uniqueid,
-            groups: idToken.groups || [],
-            name: `${idToken.given_name} ${idToken.family_name}`,
-          };
-        }
-
-        return token;
+        return {
+          ...token,
+          expires_at: account.expires_at as number,
+          oid: idToken?.oid ?? fallbackId,
+          tid: idToken?.tid,
+          uniqueId: idToken?.uniqueid ?? fallbackId,
+          email: idToken?.email ?? user?.email ?? token.email,
+          picture: token.picture,
+          groups: idToken?.groups ?? token.groups ?? [],
+          name: idToken?.given_name ? `${idToken.given_name} ${idToken.family_name}` : (user?.name ?? token.name),
+        };
       } catch (error) {
         console.error("Error processing tokens:", error);
         return { ...token, error: "TokenProcessingError" };

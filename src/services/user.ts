@@ -1,10 +1,18 @@
-import { UnauthenticatedError } from "@/constants/errors";
+import { NotFoundError, UnauthenticatedError } from "@/constants/errors";
+import { Resource } from "@/constants/resources";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/services/auth";
+import type { SocialLink } from "@/validations/user";
 import type { User } from "../../generated/prisma/client";
 
-/** Resolve the Prisma User row for the signed-in session, creating it on first login. */
-async function read(): Promise<User> {
+/** With no id: resolve/create the signed-in session's own row. With an id: public lookup of any user. */
+async function read(id?: string): Promise<User> {
+  if (id) {
+    const found = await prisma.user.findUnique({ where: { id } });
+    if (!found) throw new NotFoundError(Resource.User);
+    return found;
+  }
+
   const session = await auth();
   if (!session?.user) throw new UnauthenticatedError();
 
@@ -18,4 +26,13 @@ async function read(): Promise<User> {
   });
 }
 
-export const user = { read };
+/** Always updates the signed-in user's own profile — there is no "edit someone else" path. */
+async function update(data: { bio?: string; socialLinks: SocialLink[] }): Promise<User> {
+  const current = await read();
+  return prisma.user.update({
+    where: { id: current.id },
+    data: { bio: data.bio || null, socialLinks: data.socialLinks },
+  });
+}
+
+export const user = { read, update };

@@ -2,12 +2,18 @@
   "Home": {
     "title": "CartaFlow",
     "description": "Organize lists of cards, share them, and let others contribute.",
-    "cta": "Browse lists"
+    "cta": "Browse lists",
+    "previewTitle": "Recent lists",
+    "previewCta": "View all lists →"
   },
   "signin": {
     "title": "Sign in",
     "noProviders": "No auth provider configured.",
     "signInWith": "Sign in with {provider}"
+  },
+  "notFoundPage": {
+    "title": "Page not found",
+    "description": "The page you're looking for doesn't exist or has been moved."
   },
   "actions": {
     "retry": "Try again",
@@ -15,6 +21,14 @@
     "previousPage": "Previous page",
     "signin": "Sign in",
     "signout": "Sign out"
+  },
+  "nav": {
+    "lists": "Lists",
+    "profile": "Profile",
+    "toggleTheme": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
   },
   "errors": {
     "generic": {
@@ -60,14 +74,20 @@
       "new": "New list",
       "empty": "No lists yet.",
       "emptyCta": "Create your first list",
+      "searchPlaceholder": "Search lists…",
+      "noResults": "No lists match your search.",
       "back": "← Back",
       "backToList": "Back to list",
       "edit": "Edit",
       "delete": "Delete",
+      "cancel": "Cancel",
       "yes": "Yes",
       "no": "No",
       "private": "Private",
       "createdBy": "Created by {name}",
+      "deleteConfirmTitle": "Delete this list?",
+      "deleteConfirmDescription": "This will permanently delete \"{title}\" and all of its cards. This can't be undone.",
+      "deleteConfirm": "Delete list",
       "columns": {
         "title": "Title",
         "tags": "Tags",
@@ -115,7 +135,11 @@
       "edit": "Edit",
       "duplicate": "Duplicate",
       "delete": "Delete",
-      "addedBy": "Added by {name}"
+      "addedBy": "Added by {name}",
+      "deleteConfirmTitle": "Delete this card?",
+      "deleteConfirmDescription": "This can't be undone.",
+      "deleteConfirm": "Delete card",
+      "cancel": "Cancel"
     },
     "form": {
       "title": "Title",
@@ -142,7 +166,8 @@
   },
   "profile": {
     "page": {
-      "edit": "Edit profile"
+      "edit": "Edit profile",
+      "back": "← Back"
     },
     "form": {
       "bio": "Bio",
@@ -150,6 +175,7 @@
       "linkType": "Type",
       "linkUrl": "URL",
       "addLink": "Add link",
+      "removeLink": "Remove link",
       "save": "Save",
       "validation": {
         "bioTooLong": "Bio is too long",

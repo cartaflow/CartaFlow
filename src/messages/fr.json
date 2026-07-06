@@ -2,12 +2,18 @@
   "Home": {
     "title": "CartaFlow",
     "description": "Organisez des listes de cartes, partagez-les, et laissez les autres y contribuer.",
-    "cta": "Parcourir les listes"
+    "cta": "Parcourir les listes",
+    "previewTitle": "Listes récentes",
+    "previewCta": "Voir toutes les listes →"
   },
   "signin": {
     "title": "Se connecter",
     "noProviders": "Aucun fournisseur d'authentification configuré.",
     "signInWith": "Se connecter avec {provider}"
+  },
+  "notFoundPage": {
+    "title": "Page introuvable",
+    "description": "La page que vous cherchez n'existe pas ou a été déplacée."
   },
   "actions": {
     "retry": "Réessayer",
@@ -15,6 +21,14 @@
     "previousPage": "Page précédente",
     "signin": "Se connecter",
     "signout": "Se déconnecter"
+  },
+  "nav": {
+    "lists": "Listes",
+    "profile": "Profil",
+    "toggleTheme": "Changer de thème",
+    "light": "Clair",
+    "dark": "Sombre",
+    "system": "Système"
   },
   "errors": {
     "generic": {
@@ -60,14 +74,20 @@
       "new": "Nouvelle liste",
       "empty": "Aucune liste pour le moment.",
       "emptyCta": "Créer votre première liste",
+      "searchPlaceholder": "Rechercher des listes…",
+      "noResults": "Aucune liste ne correspond à votre recherche.",
       "back": "← Retour",
       "backToList": "Retour à la liste",
       "edit": "Modifier",
       "delete": "Supprimer",
+      "cancel": "Annuler",
       "yes": "Oui",
       "no": "Non",
       "private": "Privée",
       "createdBy": "Créée par {name}",
+      "deleteConfirmTitle": "Supprimer cette liste ?",
+      "deleteConfirmDescription": "Cela supprimera définitivement « {title} » et toutes ses cartes. Cette action est irréversible.",
+      "deleteConfirm": "Supprimer la liste",
       "columns": {
         "title": "Titre",
         "tags": "Tags",
@@ -115,7 +135,11 @@
       "edit": "Modifier",
       "duplicate": "Dupliquer",
       "delete": "Supprimer",
-      "addedBy": "Ajoutée par {name}"
+      "addedBy": "Ajoutée par {name}",
+      "deleteConfirmTitle": "Supprimer cette carte ?",
+      "deleteConfirmDescription": "Cette action est irréversible.",
+      "deleteConfirm": "Supprimer la carte",
+      "cancel": "Annuler"
     },
     "form": {
       "title": "Titre",
@@ -142,7 +166,8 @@
   },
   "profile": {
     "page": {
-      "edit": "Modifier le profil"
+      "edit": "Modifier le profil",
+      "back": "← Retour"
     },
     "form": {
       "bio": "Bio",
@@ -150,6 +175,7 @@
       "linkType": "Type",
       "linkUrl": "URL",
       "addLink": "Ajouter un lien",
+      "removeLink": "Supprimer le lien",
       "save": "Enregistrer",
       "validation": {
         "bioTooLong": "La bio est trop longue",

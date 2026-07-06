@@ -2,6 +2,9 @@ import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { CardsSection } from "@/components/card/section";
 import { ErrorPage } from "@/components/error";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { card } from "@/services/card";
 import { list } from "@/services/list";
 import { user } from "@/services/user";
@@ -25,43 +28,41 @@ export default async function ListPage({ params }: { params: Promise<{ id: strin
         <Link href="/lists" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
           {translations("back")}
         </Link>
-        <div className="flex items-center justify-between mt-4">
-          <div className="flex items-center gap-2">
-            <h1 className="text-3xl font-bold tracking-tight">{current.title}</h1>
-            {!current.public && (
-              <span className="text-xs rounded-full bg-muted px-2 py-0.5 text-muted-foreground">
-                {translations("private")}
-              </span>
-            )}
-          </div>
-          {isOwner && (
+
+        <Card className="mt-4">
+          <CardContent>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <h1 className="text-3xl font-bold tracking-tight">{current.title}</h1>
+                {!current.public && <Badge variant="outline">{translations("private")}</Badge>}
+              </div>
+              {isOwner && (
+                <Button variant="outline" render={<Link href={`/lists/${current.id}/edit`} />}>
+                  {translations("edit")}
+                </Button>
+              )}
+            </div>
             <Link
-              href={`/lists/${current.id}/edit`}
-              className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-muted transition-colors"
+              href={`/profile/${current.user.id}`}
+              className="text-sm text-muted-foreground hover:underline mt-1 inline-block"
             >
-              {translations("edit")}
+              {translations("createdBy", { name: current.user.name })}
             </Link>
-          )}
-        </div>
-        <Link
-          href={`/profile/${current.user.id}`}
-          className="text-sm text-muted-foreground hover:underline mt-1 inline-block"
-        >
-          {translations("createdBy", { name: current.user.name })}
-        </Link>
-        {current.description && <p className="text-muted-foreground mt-2">{current.description}</p>}
-        {current.tags.length > 0 && <p className="text-sm text-muted-foreground mt-1">{current.tags.join(", ")}</p>}
+            {current.description && <p className="text-muted-foreground mt-2">{current.description}</p>}
+            {current.tags.length > 0 && (
+              <div className="flex flex-wrap gap-1.5 mt-2">
+                {current.tags.map((tag) => (
+                  <Badge key={tag} variant="secondary">
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
 
-      <CardsSection
-        listId={current.id}
-        listTitle={current.title}
-        cards={cards}
-        viewerId={viewer?.id}
-        isSignedIn={!!viewer}
-        canModerate={isOwner}
-        cardTemplate={current.cardTemplate}
-      />
+      <CardsSection list={current} cards={cards} viewerId={viewer?.id} isSignedIn={!!viewer} canModerate={isOwner} />
     </div>
   );
 }

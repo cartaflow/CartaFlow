@@ -5,7 +5,8 @@ import { useMemo, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import type { ActionResult } from "@/app/lists/[id]/cards/actions";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { buildCardSchema, type CardFormValues } from "@/validations/card";
 
 interface CardFormProps {
@@ -58,19 +59,13 @@ export function CardForm({ defaultValues, action, mode, onDone }: CardFormProps)
     });
   }
 
-  const inputClass = (hasError: boolean) =>
-    cn(
-      "w-full rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary",
-      hasError && "border-destructive focus:ring-destructive",
-    );
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 rounded-lg border p-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="space-y-2">
         <label htmlFor="title" className="text-sm font-medium">
           {translations("title")}
         </label>
-        <input id="title" type="text" {...register("title")} className={inputClass(!!errors.title)} />
+        <Input id="title" type="text" aria-invalid={!!errors.title} {...register("title")} />
         {errors.title && <p className="text-sm text-destructive">{errors.title.message}</p>}
       </div>
 
@@ -78,7 +73,7 @@ export function CardForm({ defaultValues, action, mode, onDone }: CardFormProps)
         <label htmlFor="description" className="text-sm font-medium">
           {translations("description")}
         </label>
-        <textarea id="description" rows={3} {...register("description")} className={inputClass(!!errors.description)} />
+        <Textarea id="description" rows={3} aria-invalid={!!errors.description} {...register("description")} />
         {errors.description && <p className="text-sm text-destructive">{errors.description.message}</p>}
       </div>
 
@@ -86,7 +81,7 @@ export function CardForm({ defaultValues, action, mode, onDone }: CardFormProps)
         <label htmlFor="url" className="text-sm font-medium">
           {translations("url")}
         </label>
-        <input id="url" type="text" {...register("url")} className={inputClass(!!errors.url)} />
+        <Input id="url" type="text" aria-invalid={!!errors.url} {...register("url")} />
         {errors.url && <p className="text-sm text-destructive">{errors.url.message}</p>}
       </div>
 
@@ -94,7 +89,7 @@ export function CardForm({ defaultValues, action, mode, onDone }: CardFormProps)
         <label htmlFor="image" className="text-sm font-medium">
           {translations("image")}
         </label>
-        <input id="image" type="text" {...register("image")} className={inputClass(!!errors.image)} />
+        <Input id="image" type="text" aria-invalid={!!errors.image} {...register("image")} />
         {errors.image && <p className="text-sm text-destructive">{errors.image.message}</p>}
       </div>
 
@@ -102,12 +97,12 @@ export function CardForm({ defaultValues, action, mode, onDone }: CardFormProps)
         <label htmlFor="tags" className="text-sm font-medium">
           {translations("tags")}
         </label>
-        <input
+        <Input
           id="tags"
           type="text"
           placeholder={translations("tagsPlaceholder")}
+          aria-invalid={!!errors.tags}
           {...register("tags")}
-          className={inputClass(!!errors.tags)}
         />
         {errors.tags && <p className="text-sm text-destructive">{errors.tags.message}</p>}
       </div>

@@ -3,20 +3,11 @@ import { ForbiddenError, NotFoundError } from "@/constants/errors";
 import { Resource } from "@/constants/resources";
 import { defineAbilityFor } from "@/lib/ability";
 import { prisma } from "@/lib/prisma";
-import type { List } from "../../generated/prisma/client";
+import type { List, ListData } from "@/types/list";
 import { user } from "./user";
 
 const RESOURCE = Resource.List;
-
-export interface ListData {
-  title: string;
-  description?: string;
-  tags?: string[];
-  icon?: string;
-  cardTemplate?: string;
-  requireApproval?: boolean;
-  public?: boolean;
-}
+const withAuthor = { user: { select: { id: true, name: true, username: true } } } as const;
 
 export const list = {
   /** Public lists are visible to everyone; private ones only show up for their owner. */
@@ -24,15 +15,13 @@ export const list = {
     const current = await user.read().catch(() => null);
     return prisma.list.findMany({
       where: current ? { OR: [{ public: true }, { userId: current.id }] } : { public: true },
+      include: withAuthor,
       orderBy: { createdAt: "desc" },
     });
   },
 
-  async read(id: string) {
-    const found = await prisma.list.findUnique({
-      where: { id },
-      include: { user: { select: { id: true, name: true, username: true } } },
-    });
+  async read(id: string): Promise<List> {
+    const found = await prisma.list.findUnique({ where: { id }, include: withAuthor });
     if (!found) throw new NotFoundError(RESOURCE);
 
     if (!found.public) {
@@ -59,6 +48,7 @@ export const list = {
         public: data.public ?? true,
         userId: current.id,
       },
+      include: withAuthor,
     });
   },
 
@@ -81,6 +71,7 @@ export const list = {
         requireApproval: data.requireApproval ?? false,
         public: data.public ?? true,
       },
+      include: withAuthor,
     });
   },
 
@@ -92,6 +83,6 @@ export const list = {
     const ability = defineAbilityFor(current.id);
     if (ability.cannot("delete", subject("List", existing))) throw new ForbiddenError(RESOURCE);
 
-    return prisma.list.delete({ where: { id } });
+    return prisma.list.delete({ where: { id }, include: withAuthor });
   },
 };

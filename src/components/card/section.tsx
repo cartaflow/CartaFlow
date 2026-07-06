@@ -1,4 +1,5 @@
 "use client";
+import { LayoutGrid } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 import { createCard, importCards } from "@/app/lists/[id]/cards/actions";
@@ -7,6 +8,7 @@ import { CardItem } from "@/components/card/item";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
@@ -155,7 +157,11 @@ export function CardsSection({ list, cards, viewerId, isSignedIn, canModerate }:
               key={tag}
               variant={activeTag === tag ? "default" : "outline"}
               render={
-                <button type="button" onClick={() => setActiveTag((current) => (current === tag ? null : tag))} />
+                <button
+                  type="button"
+                  aria-pressed={activeTag === tag}
+                  onClick={() => setActiveTag((current) => (current === tag ? null : tag))}
+                />
               }
             >
               {tag}
@@ -165,9 +171,16 @@ export function CardsSection({ list, cards, viewerId, isSignedIn, canModerate }:
       )}
 
       {visible.length === 0 ? (
-        <p className="text-sm text-muted-foreground">{translations("empty")}</p>
+        <Empty className="border">
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <LayoutGrid />
+            </EmptyMedia>
+            <EmptyTitle>{translations("empty")}</EmptyTitle>
+          </EmptyHeader>
+        </Empty>
       ) : (
-        <div className="space-y-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {visible.map((c) => (
             <CardItem
               key={c.id}

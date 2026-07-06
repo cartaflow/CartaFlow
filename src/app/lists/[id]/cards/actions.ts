@@ -1,7 +1,9 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { fetchPageMetadata, type PageMetadata } from "@/lib/metadata";
 import { card } from "@/services/card";
+import { user } from "@/services/user";
 import type { CardData } from "@/types/card";
 import { type CardFormValues, cardSchema } from "@/validations/card";
 
@@ -20,6 +22,20 @@ function toCardData(data: CardFormValues): CardData {
           .filter(Boolean)
       : [],
   };
+}
+
+/** Best-effort link preview: returns null on any failure so the form can fall back to manual entry. */
+export async function fetchCardMetadata(url: string): Promise<PageMetadata | null> {
+  await user.read();
+
+  const result = z.string().url().safeParse(url);
+  if (!result.success) return null;
+
+  try {
+    return await fetchPageMetadata(result.data);
+  } catch {
+    return null;
+  }
 }
 
 export async function createCard(listId: string, data: CardFormValues): Promise<ActionResult> {

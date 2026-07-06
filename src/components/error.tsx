@@ -35,7 +35,7 @@ export async function ErrorPage({ error }: ErrorPageProps) {
           </div>
 
           <div className="space-y-2">
-            <h1 className="text-2xl font-bold">{translations.errors(`${code}.title`)}</h1>
+            <h1 className="font-heading text-2xl font-bold">{translations.errors(`${code}.title`)}</h1>
             <p className="text-muted-foreground">
               {translations.errors(`${code}.description`, { resource: resourceName })}
             </p>

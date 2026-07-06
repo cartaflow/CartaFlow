@@ -18,7 +18,7 @@ export default function ErrorPage({
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
+    <div className="flex flex-1 items-center justify-center p-6">
       <Card className="max-w-md w-full">
         <CardContent className="text-center space-y-6">
           <div className="flex justify-center">
@@ -28,7 +28,7 @@ export default function ErrorPage({
           </div>
 
           <div className="space-y-2">
-            <h1 className="text-2xl font-bold">{translations.error("title")}</h1>
+            <h1 className="font-heading text-2xl font-bold">{translations.error("title")}</h1>
             <p className="text-muted-foreground">{translations.error("description")}</p>
           </div>
 

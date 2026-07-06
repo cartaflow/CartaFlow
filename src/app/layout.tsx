@@ -1,21 +1,15 @@
+import { GeistMono } from "geist/font/mono";
+import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
-import { Roboto, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
+import { AppHeader } from "@/components/layout/header";
+import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { SessionProvider } from "@/providers/session";
+import { ThemeProvider } from "@/providers/theme";
 import { auth } from "@/services/auth";
-
-const roboto = Roboto({
-  variable: "--font-roboto",
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-});
-
-const robotoMono = Roboto_Mono({
-  variable: "--font-roboto-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "CartaFlow",
@@ -33,10 +27,22 @@ export default async function RootLayout({
   const locale = await getLocale();
   const messages = await getMessages();
   return (
-    <html lang={locale} className={`${roboto.variable} ${robotoMono.variable} h-full dark antialiased`}>
+    <html
+      lang={locale}
+      className={`${GeistSans.variable} ${GeistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
+    >
       <body className="min-h-full flex flex-col">
         <NextIntlClientProvider messages={messages}>
-          <SessionProvider session={session}>{children}</SessionProvider>
+          <SessionProvider session={session}>
+            <ThemeProvider>
+              <TooltipProvider>
+                <AppHeader session={session} />
+                <main className="flex flex-1 flex-col">{children}</main>
+                <Toaster />
+              </TooltipProvider>
+            </ThemeProvider>
+          </SessionProvider>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -6,7 +6,8 @@ import { useMemo, useTransition } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import type { ActionResult } from "@/app/profile/[id]/actions";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { buildProfileSchema, type ProfileFormValues } from "@/validations/user";
 
 interface ProfileFormProps {
@@ -52,19 +53,13 @@ export function ProfileForm({ defaultValues, action }: ProfileFormProps) {
     });
   }
 
-  const inputClass = (hasError: boolean) =>
-    cn(
-      "w-full rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary",
-      hasError && "border-destructive focus:ring-destructive",
-    );
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="space-y-2">
         <label htmlFor="bio" className="text-sm font-medium">
           {translations("bio")}
         </label>
-        <textarea id="bio" rows={4} {...register("bio")} className={inputClass(!!errors.bio)} />
+        <Textarea id="bio" rows={4} aria-invalid={!!errors.bio} {...register("bio")} />
         {errors.bio && <p className="text-sm text-destructive">{errors.bio.message}</p>}
       </div>
 
@@ -73,17 +68,18 @@ export function ProfileForm({ defaultValues, action }: ProfileFormProps) {
         <div className="space-y-2">
           {fields.map((field, index) => (
             <div key={field.id} className="flex gap-2">
-              <input
+              <Input
                 type="text"
                 placeholder={translations("linkType")}
+                aria-invalid={!!errors.socialLinks?.[index]?.type}
+                className="w-32"
                 {...register(`socialLinks.${index}.type`)}
-                className={cn(inputClass(!!errors.socialLinks?.[index]?.type), "w-32")}
               />
-              <input
+              <Input
                 type="text"
                 placeholder={translations("linkUrl")}
+                aria-invalid={!!errors.socialLinks?.[index]?.link}
                 {...register(`socialLinks.${index}.link`)}
-                className={inputClass(!!errors.socialLinks?.[index]?.link)}
               />
               <Button type="button" variant="outline" size="icon" onClick={() => remove(index)}>
                 <Trash2 className="h-4 w-4" />

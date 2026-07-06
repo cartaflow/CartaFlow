@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { ErrorPage } from "@/components/error";
 import { ProfileForm } from "@/components/profile/form";
+import { Card, CardContent } from "@/components/ui/card";
 import { ForbiddenError } from "@/constants/errors";
 import { Resource } from "@/constants/resources";
 import { user } from "@/services/user";
@@ -22,7 +23,11 @@ export default async function EditProfilePage({ params }: { params: Promise<{ id
   return (
     <div className="container mx-auto px-6 py-12 max-w-lg">
       <h1 className="text-3xl font-bold tracking-tight mb-8">{translations("edit")}</h1>
-      <ProfileForm defaultValues={{ bio: profile.bio ?? "", socialLinks }} action={updateProfile} />
+      <Card>
+        <CardContent>
+          <ProfileForm defaultValues={{ bio: profile.bio ?? "", socialLinks }} action={updateProfile} />
+        </CardContent>
+      </Card>
     </div>
   );
 }

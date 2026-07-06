@@ -52,4 +52,5 @@ export async function updateList(id: string, data: ListFormValues): Promise<Acti
 export async function deleteList(id: string) {
   await list.remove(id);
   revalidatePath("/lists");
+  redirect("/lists");
 }

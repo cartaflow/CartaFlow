@@ -1,9 +1,9 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
-import { useMemo, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import type { ActionResult } from "@/app/lists/[id]/cards/actions";
+import { type ActionResult, fetchCardMetadata } from "@/app/lists/[id]/cards/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -31,16 +31,38 @@ export function CardForm({ defaultValues, action, mode, onDone }: CardFormProps)
   );
 
   const [isPending, startTransition] = useTransition();
+  const [isFetchingMetadata, startMetadataFetch] = useTransition();
+  const [fetchError, setFetchError] = useState(false);
 
   const {
     register,
     handleSubmit,
     setError,
+    setValue,
+    getValues,
+    watch,
     formState: { errors },
   } = useForm<CardFormValues>({
     resolver: zodResolver(schema),
     defaultValues,
   });
+
+  function handleFetchMetadata() {
+    const url = getValues("url");
+    if (!url) return;
+
+    setFetchError(false);
+    startMetadataFetch(async () => {
+      const result = await fetchCardMetadata(url);
+      if (!result) {
+        setFetchError(true);
+        return;
+      }
+      if (result.title) setValue("title", result.title, { shouldValidate: true });
+      if (result.description) setValue("description", result.description, { shouldValidate: true });
+      if (result.image) setValue("image", result.image, { shouldValidate: true });
+    });
+  }
 
   function onSubmit(data: CardFormValues) {
     startTransition(async () => {
@@ -81,8 +103,19 @@ export function CardForm({ defaultValues, action, mode, onDone }: CardFormProps)
         <label htmlFor="url" className="text-sm font-medium">
           {translations("url")}
         </label>
-        <Input id="url" type="text" aria-invalid={!!errors.url} {...register("url")} />
+        <div className="flex gap-2">
+          <Input id="url" type="text" className="flex-1" aria-invalid={!!errors.url} {...register("url")} />
+          <Button
+            type="button"
+            variant="outline"
+            disabled={isFetchingMetadata || !watch("url")}
+            onClick={handleFetchMetadata}
+          >
+            {isFetchingMetadata ? translations("fetchMetadataPending") : translations("fetchMetadata")}
+          </Button>
+        </div>
         {errors.url && <p className="text-sm text-destructive">{errors.url.message}</p>}
+        {fetchError && <p className="text-sm text-destructive">{translations("fetchMetadataError")}</p>}
       </div>
 
       <div className="space-y-2">

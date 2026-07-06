@@ -20,6 +20,7 @@ interface CardItemProps {
 export function CardItem({ card, listId, listOwnerId, canEdit, canModerate }: CardItemProps) {
   const translations = useTranslations("card.item");
   const [isEditing, setIsEditing] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   if (isEditing) {
     return (
@@ -46,7 +47,17 @@ export function CardItem({ card, listId, listOwnerId, canEdit, canModerate }: Ca
     <Card>
       <CardContent className="space-y-2">
         <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0">
+          {card.image && !imageError && (
+            // biome-ignore lint/performance/noImgElement: image domains are arbitrary, user-submitted URLs
+            <img
+              src={card.image}
+              alt=""
+              loading="lazy"
+              onError={() => setImageError(true)}
+              className="h-12 w-12 shrink-0 rounded object-cover"
+            />
+          )}
+          <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
               {card.url ? (
                 <a href={card.url} target="_blank" rel="noopener noreferrer" className="font-medium hover:underline">

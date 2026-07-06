@@ -2,7 +2,8 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { type ListData, list } from "@/services/list";
+import { list } from "@/services/list";
+import type { ListData } from "@/types/list";
 import { type ListFormValues, listSchema } from "@/validations/list";
 
 export type ActionResult = { errors: Record<string, string[]> } | undefined;

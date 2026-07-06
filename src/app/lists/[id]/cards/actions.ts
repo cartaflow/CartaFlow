@@ -1,7 +1,8 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { type CardData, card } from "@/services/card";
+import { card } from "@/services/card";
+import type { CardData } from "@/types/card";
 import { type CardFormValues, cardSchema } from "@/validations/card";
 
 export type ActionResult = { errors: Record<string, string[]> } | undefined;

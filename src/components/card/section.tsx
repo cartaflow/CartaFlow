@@ -4,35 +4,35 @@ import { useMemo, useState } from "react";
 import { createCard, importCards } from "@/app/lists/[id]/cards/actions";
 import { CardForm } from "@/components/card/form";
 import { CardItem } from "@/components/card/item";
+import { Badge } from "@/components/ui/badge";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import type { Card } from "../../../generated/prisma/client";
+import type { Card } from "@/types/card";
+import type { List } from "@/types/list";
 
 interface CardsSectionProps {
-  listId: string;
-  listTitle: string;
+  list: List;
   cards: Card[];
   viewerId?: string;
   isSignedIn: boolean;
   canModerate: boolean;
-  cardTemplate?: string | null;
 }
 
 type Sort = "newest" | "oldest" | "title";
 
-export function CardsSection({
-  listId,
-  listTitle,
-  cards,
-  viewerId,
-  isSignedIn,
-  canModerate,
-  cardTemplate,
-}: CardsSectionProps) {
+export function CardsSection({ list, cards, viewerId, isSignedIn, canModerate }: CardsSectionProps) {
+  const listId = list.id;
+  const listTitle = list.title;
+  const listOwnerId = list.userId;
+  const cardTemplate = list.cardTemplate;
   const translations = useTranslations("card.section");
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<Sort>("newest");
   const [activeTag, setActiveTag] = useState<string | null>(null);
-  const [showForm, setShowForm] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const allTags = useMemo(() => {
     const set = new Set<string>();
@@ -96,73 +96,70 @@ export function CardsSection({
         <h2 className="text-xl font-semibold">
           {translations("title")} <span className="text-sm font-normal text-muted-foreground">({cards.length})</span>
         </h2>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           {canModerate && (
             <>
-              <button type="button" onClick={handleExport} className="text-sm hover:underline">
+              <Button type="button" variant="ghost" size="sm" onClick={handleExport}>
                 {translations("export")}
-              </button>
-              <label className="text-sm hover:underline cursor-pointer">
+              </Button>
+              <label className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "cursor-pointer")}>
                 {translations("import")}
                 <input type="file" accept="application/json" className="hidden" onChange={handleImport} />
               </label>
             </>
           )}
           {isSignedIn && (
-            <button
-              type="button"
-              onClick={() => setShowForm((v) => !v)}
-              className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/80"
-            >
-              {translations("addCard")}
-            </button>
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <DialogTrigger render={<Button type="button" />}>{translations("addCard")}</DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>{translations("addCard")}</DialogTitle>
+                </DialogHeader>
+                <CardForm
+                  mode="create"
+                  defaultValues={{ description: cardTemplate ?? "" }}
+                  action={(data) => createCard(listId, data)}
+                  onDone={() => setDialogOpen(false)}
+                />
+              </DialogContent>
+            </Dialog>
           )}
         </div>
       </div>
 
-      {showForm && (
-        <CardForm
-          mode="create"
-          defaultValues={{ description: cardTemplate ?? "" }}
-          action={(data) => createCard(listId, data)}
-          onDone={() => setShowForm(false)}
-        />
-      )}
-
       {cards.length > 0 && (
         <div className="flex flex-wrap items-center gap-3">
-          <input
+          <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder={translations("searchPlaceholder")}
-            className="flex-1 min-w-[200px] rounded-md border bg-background px-3 py-2 text-sm"
+            className="flex-1 min-w-[200px]"
           />
-          <select
-            value={sort}
-            onChange={(e) => setSort(e.target.value as Sort)}
-            className="rounded-md border bg-background px-3 py-2 text-sm"
-          >
-            <option value="newest">{translations("sortNewest")}</option>
-            <option value="oldest">{translations("sortOldest")}</option>
-            <option value="title">{translations("sortTitle")}</option>
-          </select>
+          <Select value={sort} onValueChange={(value) => setSort(value as Sort)}>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="newest">{translations("sortNewest")}</SelectItem>
+              <SelectItem value="oldest">{translations("sortOldest")}</SelectItem>
+              <SelectItem value="title">{translations("sortTitle")}</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       )}
 
       {allTags.length > 0 && (
         <div className="flex flex-wrap items-center gap-2">
           {allTags.map((tag) => (
-            <button
+            <Badge
               key={tag}
-              type="button"
-              onClick={() => setActiveTag((current) => (current === tag ? null : tag))}
-              className={cn(
-                "text-xs rounded-full border px-3 py-1",
-                activeTag === tag ? "bg-primary text-primary-foreground" : "hover:bg-muted",
-              )}
+              variant={activeTag === tag ? "default" : "outline"}
+              render={
+                <button type="button" onClick={() => setActiveTag((current) => (current === tag ? null : tag))} />
+              }
             >
               {tag}
-            </button>
+            </Badge>
           ))}
         </div>
       )}
@@ -176,6 +173,7 @@ export function CardsSection({
               key={c.id}
               card={c}
               listId={listId}
+              listOwnerId={listOwnerId}
               canEdit={canModerate || c.userId === viewerId}
               canModerate={canModerate}
             />

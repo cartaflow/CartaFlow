@@ -1,7 +1,13 @@
 {
   "Home": {
-    "title": "Bienvenue",
-    "description": "Modifiez src/app/page.tsx pour commencer."
+    "title": "CartaFlow",
+    "description": "Organisez des listes de cartes, partagez-les, et laissez les autres y contribuer.",
+    "cta": "Parcourir les listes"
+  },
+  "signin": {
+    "title": "Se connecter",
+    "noProviders": "Aucun fournisseur d'authentification configuré.",
+    "signInWith": "Se connecter avec {provider}"
   },
   "actions": {
     "retry": "Réessayer",
@@ -108,7 +114,8 @@
       "approve": "Approuver",
       "edit": "Modifier",
       "duplicate": "Dupliquer",
-      "delete": "Supprimer"
+      "delete": "Supprimer",
+      "addedBy": "Ajoutée par {name}"
     },
     "form": {
       "title": "Titre",

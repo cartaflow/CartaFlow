@@ -1,7 +1,13 @@
 {
   "Home": {
-    "title": "Welcome",
-    "description": "Edit src/app/page.tsx to get started."
+    "title": "CartaFlow",
+    "description": "Organize lists of cards, share them, and let others contribute.",
+    "cta": "Browse lists"
+  },
+  "signin": {
+    "title": "Sign in",
+    "noProviders": "No auth provider configured.",
+    "signInWith": "Sign in with {provider}"
   },
   "actions": {
     "retry": "Try again",
@@ -108,7 +114,8 @@
       "approve": "Approve",
       "edit": "Edit",
       "duplicate": "Duplicate",
-      "delete": "Delete"
+      "delete": "Delete",
+      "addedBy": "Added by {name}"
     },
     "form": {
       "title": "Title",

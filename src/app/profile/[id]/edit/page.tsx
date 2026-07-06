@@ -1,5 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { ErrorPage } from "@/components/error";
+import { PageContainer } from "@/components/layout/pagecontainer";
+import { PageHeader } from "@/components/layout/pageheader";
 import { ProfileForm } from "@/components/profile/form";
 import { Card, CardContent } from "@/components/ui/card";
 import { ForbiddenError } from "@/constants/errors";
@@ -21,13 +23,13 @@ export default async function EditProfilePage({ params }: { params: Promise<{ id
   const socialLinks = (Array.isArray(profile.socialLinks) ? profile.socialLinks : []) as SocialLink[];
 
   return (
-    <div className="container mx-auto px-6 py-12 max-w-lg">
-      <h1 className="text-3xl font-bold tracking-tight mb-8">{translations("edit")}</h1>
+    <PageContainer size="narrow">
+      <PageHeader title={translations("edit")} backHref={`/profile/${profile.id}`} backLabel={translations("back")} />
       <Card>
         <CardContent>
           <ProfileForm defaultValues={{ bio: profile.bio ?? "", socialLinks }} action={updateProfile} />
         </CardContent>
       </Card>
-    </div>
+    </PageContainer>
   );
 }

@@ -3,18 +3,12 @@ import { ForbiddenError, NotFoundError } from "@/constants/errors";
 import { Resource } from "@/constants/resources";
 import { defineAbilityFor } from "@/lib/ability";
 import { prisma } from "@/lib/prisma";
-import type { Card, CardStatus } from "../../generated/prisma/client";
+import type { Card, CardData } from "@/types/card";
+import type { CardStatus } from "../../generated/prisma/client";
 import { user } from "./user";
 
 const RESOURCE = Resource.Card;
-
-export interface CardData {
-  title: string;
-  description?: string;
-  url?: string;
-  image?: string;
-  tags?: string[];
-}
+const withAuthor = { user: { select: { id: true, name: true } } } as const;
 
 function nextStatus(isListOwner: boolean, requireApproval: boolean): CardStatus {
   return isListOwner || !requireApproval ? "PUBLISHED" : "PENDING";
@@ -28,7 +22,7 @@ export const card = {
 
     const current = await user.read().catch(() => null);
     if (current && current.id === list.userId) {
-      return prisma.card.findMany({ where: { listId }, orderBy: { createdAt: "desc" } });
+      return prisma.card.findMany({ where: { listId }, include: withAuthor, orderBy: { createdAt: "desc" } });
     }
 
     return prisma.card.findMany({
@@ -36,12 +30,13 @@ export const card = {
         listId,
         OR: [{ status: "PUBLISHED" }, ...(current ? [{ status: "PENDING" as const, userId: current.id }] : [])],
       },
+      include: withAuthor,
       orderBy: { createdAt: "desc" },
     });
   },
 
   async read(id: string): Promise<Card> {
-    const found = await prisma.card.findUnique({ where: { id } });
+    const found = await prisma.card.findUnique({ where: { id }, include: withAuthor });
     if (!found) throw new NotFoundError(RESOURCE);
     return found;
   },
@@ -65,6 +60,7 @@ export const card = {
         listId,
         userId: current.id,
       },
+      include: withAuthor,
     });
   },
 
@@ -87,6 +83,7 @@ export const card = {
         tags: data.tags ?? [],
         status: nextStatus(existing.list.userId === current.id, existing.list.requireApproval),
       },
+      include: withAuthor,
     });
   },
 
@@ -99,7 +96,7 @@ export const card = {
     if (ability.cannot("delete", subject("Card", { ...existing, listOwnerId: existing.list.userId })))
       throw new ForbiddenError(RESOURCE);
 
-    return prisma.card.delete({ where: { id } });
+    return prisma.card.delete({ where: { id }, include: withAuthor });
   },
 
   /** Restricted to whoever can already edit the card (author or list owner). */
@@ -123,6 +120,7 @@ export const card = {
         listId: existing.listId,
         userId: current.id,
       },
+      include: withAuthor,
     });
   },
 
@@ -133,6 +131,6 @@ export const card = {
     if (!existing) throw new NotFoundError(RESOURCE);
     if (existing.list.userId !== current.id) throw new ForbiddenError(RESOURCE);
 
-    return prisma.card.update({ where: { id }, data: { status: "PUBLISHED" } });
+    return prisma.card.update({ where: { id }, data: { status: "PUBLISHED" }, include: withAuthor });
   },
 };

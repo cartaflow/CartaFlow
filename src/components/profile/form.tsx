@@ -6,6 +6,7 @@ import { useMemo, useTransition } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import type { ActionResult } from "@/app/profile/[id]/actions";
 import { Button } from "@/components/ui/button";
+import { Field, FieldError, FieldGroup, FieldLabel, FieldLegend, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { buildProfileSchema, type ProfileFormValues } from "@/validations/user";
@@ -54,52 +55,58 @@ export function ProfileForm({ defaultValues, action }: ProfileFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div className="space-y-2">
-        <label htmlFor="bio" className="text-sm font-medium">
-          {translations("bio")}
-        </label>
-        <Textarea id="bio" rows={4} aria-invalid={!!errors.bio} {...register("bio")} />
-        {errors.bio && <p className="text-sm text-destructive">{errors.bio.message}</p>}
-      </div>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <FieldGroup>
+        <Field data-invalid={!!errors.bio}>
+          <FieldLabel htmlFor="bio">{translations("bio")}</FieldLabel>
+          <Textarea id="bio" rows={4} aria-invalid={!!errors.bio} {...register("bio")} />
+          <FieldError errors={[errors.bio]} />
+        </Field>
 
-      <div className="space-y-2">
-        <span className="text-sm font-medium">{translations("socialLinks")}</span>
-        <div className="space-y-2">
-          {fields.map((field, index) => (
-            <div key={field.id} className="flex gap-2">
-              <Input
-                type="text"
-                placeholder={translations("linkType")}
-                aria-invalid={!!errors.socialLinks?.[index]?.type}
-                className="w-32"
-                {...register(`socialLinks.${index}.type`)}
-              />
-              <Input
-                type="text"
-                placeholder={translations("linkUrl")}
-                aria-invalid={!!errors.socialLinks?.[index]?.link}
-                {...register(`socialLinks.${index}.link`)}
-              />
-              <Button type="button" variant="outline" size="icon" onClick={() => remove(index)}>
-                <Trash2 className="h-4 w-4" />
-              </Button>
-            </div>
-          ))}
+        <FieldSet>
+          <FieldLegend variant="label">{translations("socialLinks")}</FieldLegend>
+          <div className="space-y-2">
+            {fields.map((field, index) => (
+              <div key={field.id} className="flex gap-2">
+                <Input
+                  type="text"
+                  placeholder={translations("linkType")}
+                  aria-invalid={!!errors.socialLinks?.[index]?.type}
+                  className="w-32"
+                  {...register(`socialLinks.${index}.type`)}
+                />
+                <Input
+                  type="text"
+                  placeholder={translations("linkUrl")}
+                  aria-invalid={!!errors.socialLinks?.[index]?.link}
+                  {...register(`socialLinks.${index}.link`)}
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  aria-label={translations("removeLink")}
+                  onClick={() => remove(index)}
+                >
+                  <Trash2 />
+                </Button>
+              </div>
+            ))}
+          </div>
+          <Button type="button" variant="outline" onClick={() => append({ type: "", link: "" })}>
+            <Plus data-icon="inline-start" />
+            {translations("addLink")}
+          </Button>
+        </FieldSet>
+
+        {errors.root && <FieldError>{errors.root.message}</FieldError>}
+
+        <div className="flex gap-3">
+          <Button type="submit" disabled={isPending}>
+            {isPending ? "…" : translations("save")}
+          </Button>
         </div>
-        <Button type="button" variant="outline" onClick={() => append({ type: "", link: "" })}>
-          <Plus className="h-4 w-4" />
-          {translations("addLink")}
-        </Button>
-      </div>
-
-      {errors.root && <p className="text-sm text-destructive">{errors.root.message}</p>}
-
-      <div className="flex gap-3 pt-2">
-        <Button type="submit" disabled={isPending}>
-          {isPending ? "…" : translations("save")}
-        </Button>
-      </div>
+      </FieldGroup>
     </form>
   );
 }

@@ -3,11 +3,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useMemo, useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import type { ActionResult } from "@/app/lists/actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Field, FieldContent, FieldError, FieldGroup, FieldLabel, FieldTitle } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { buildListSchema, type ListFormValues } from "@/validations/list";
 
@@ -35,6 +37,7 @@ export function ListForm({ defaultValues, action, mode }: ListFormProps) {
 
   const {
     register,
+    control,
     handleSubmit,
     setError,
     formState: { errors },
@@ -61,77 +64,83 @@ export function ListForm({ defaultValues, action, mode }: ListFormProps) {
   return (
     <Card>
       <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-2">
-            <label htmlFor="title" className="text-sm font-medium">
-              {translations("title")}
-            </label>
-            <Input id="title" type="text" aria-invalid={!!errors.title} {...register("title")} />
-            {errors.title && <p className="text-sm text-destructive">{errors.title.message}</p>}
-          </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FieldGroup>
+            <Field data-invalid={!!errors.title}>
+              <FieldLabel htmlFor="title">{translations("title")}</FieldLabel>
+              <Input id="title" type="text" aria-invalid={!!errors.title} {...register("title")} />
+              <FieldError errors={[errors.title]} />
+            </Field>
 
-          <div className="space-y-2">
-            <label htmlFor="description" className="text-sm font-medium">
-              {translations("description")}
-            </label>
-            <Textarea id="description" rows={3} aria-invalid={!!errors.description} {...register("description")} />
-            {errors.description && <p className="text-sm text-destructive">{errors.description.message}</p>}
-          </div>
+            <Field data-invalid={!!errors.description}>
+              <FieldLabel htmlFor="description">{translations("description")}</FieldLabel>
+              <Textarea id="description" rows={3} aria-invalid={!!errors.description} {...register("description")} />
+              <FieldError errors={[errors.description]} />
+            </Field>
 
-          <div className="space-y-2">
-            <label htmlFor="tags" className="text-sm font-medium">
-              {translations("tags")}
-            </label>
-            <Input
-              id="tags"
-              type="text"
-              placeholder={translations("tagsPlaceholder")}
-              aria-invalid={!!errors.tags}
-              {...register("tags")}
-            />
-            {errors.tags && <p className="text-sm text-destructive">{errors.tags.message}</p>}
-          </div>
+            <Field data-invalid={!!errors.tags}>
+              <FieldLabel htmlFor="tags">{translations("tags")}</FieldLabel>
+              <Input
+                id="tags"
+                type="text"
+                placeholder={translations("tagsPlaceholder")}
+                aria-invalid={!!errors.tags}
+                {...register("tags")}
+              />
+              <FieldError errors={[errors.tags]} />
+            </Field>
 
-          <div className="space-y-2">
-            <label htmlFor="icon" className="text-sm font-medium">
-              {translations("icon")}
-            </label>
-            <Input id="icon" type="text" aria-invalid={!!errors.icon} {...register("icon")} />
-            {errors.icon && <p className="text-sm text-destructive">{errors.icon.message}</p>}
-          </div>
+            <Field data-invalid={!!errors.icon}>
+              <FieldLabel htmlFor="icon">{translations("icon")}</FieldLabel>
+              <Input id="icon" type="text" aria-invalid={!!errors.icon} {...register("icon")} />
+              <FieldError errors={[errors.icon]} />
+            </Field>
 
-          <div className="space-y-2">
-            <label htmlFor="cardTemplate" className="text-sm font-medium">
-              {translations("cardTemplate")}
-            </label>
-            <Textarea id="cardTemplate" rows={3} aria-invalid={!!errors.cardTemplate} {...register("cardTemplate")} />
-            {errors.cardTemplate && <p className="text-sm text-destructive">{errors.cardTemplate.message}</p>}
-          </div>
+            <Field data-invalid={!!errors.cardTemplate}>
+              <FieldLabel htmlFor="cardTemplate">{translations("cardTemplate")}</FieldLabel>
+              <Textarea id="cardTemplate" rows={3} aria-invalid={!!errors.cardTemplate} {...register("cardTemplate")} />
+              <FieldError errors={[errors.cardTemplate]} />
+            </Field>
 
-          <div className="flex items-center gap-2">
-            <input id="public" type="checkbox" {...register("public")} className="h-4 w-4" />
-            <label htmlFor="public" className="text-sm font-medium">
-              {translations("public")}
-            </label>
-          </div>
+            <FieldLabel htmlFor="public">
+              <Field orientation="horizontal">
+                <FieldContent>
+                  <FieldTitle>{translations("public")}</FieldTitle>
+                </FieldContent>
+                <Controller
+                  control={control}
+                  name="public"
+                  render={({ field }) => <Switch id="public" checked={field.value} onCheckedChange={field.onChange} />}
+                />
+              </Field>
+            </FieldLabel>
 
-          <div className="flex items-center gap-2">
-            <input id="requireApproval" type="checkbox" {...register("requireApproval")} className="h-4 w-4" />
-            <label htmlFor="requireApproval" className="text-sm font-medium">
-              {translations("requireApproval")}
-            </label>
-          </div>
+            <FieldLabel htmlFor="requireApproval">
+              <Field orientation="horizontal">
+                <FieldContent>
+                  <FieldTitle>{translations("requireApproval")}</FieldTitle>
+                </FieldContent>
+                <Controller
+                  control={control}
+                  name="requireApproval"
+                  render={({ field }) => (
+                    <Switch id="requireApproval" checked={field.value} onCheckedChange={field.onChange} />
+                  )}
+                />
+              </Field>
+            </FieldLabel>
 
-          {errors.root && <p className="text-sm text-destructive">{errors.root.message}</p>}
+            {errors.root && <FieldError>{errors.root.message}</FieldError>}
 
-          <div className="flex gap-3 pt-2">
-            <Button type="submit" disabled={isPending}>
-              {isPending ? "…" : translations(`submit.${mode}`)}
-            </Button>
-            <Button variant="outline" render={<Link href="/lists" />}>
-              {translations("cancel")}
-            </Button>
-          </div>
+            <div className="flex gap-3">
+              <Button type="submit" disabled={isPending}>
+                {isPending ? "…" : translations(`submit.${mode}`)}
+              </Button>
+              <Button variant="outline" render={<Link href="/lists" />}>
+                {translations("cancel")}
+              </Button>
+            </div>
+          </FieldGroup>
         </form>
       </CardContent>
     </Card>
